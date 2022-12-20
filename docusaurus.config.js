@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'greatlakesdev',
+  title: 'great lakes dev',
   tagline: 'FOSS & OSHW',
   url: 'https://greatlakesdev.io',
   baseUrl: '/',
@@ -115,7 +115,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/greatlakesdev',
               },
             ],
           },
