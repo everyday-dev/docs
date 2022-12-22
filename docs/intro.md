@@ -2,45 +2,7 @@
 sidebar_position: 1
 ---
 
-# Welcome 👋
-TO-DO :D
-<!--
-## Getting Started
+# Introduction 👋
+Welcome to great lakes dev! A collection of projects and products all containing FOSS and OSHW. The goal is to provide cool and useful tools, gadgets and software to you for free to build on your own. If you just want to start tinkering with a piece of hardware and skip the build, you can pickup a fully built piece at the [shop - COMING SOON](./intro). To stay up to date on great lakes dev as well as view walk-throughs, teardowns and products spotlights check out the [blog](/blog/introduction).
 
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 16.14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes. -->
+If you're looking for documentation - you came to the right place. You can browse every project currently posted publicly and view hardware diagrams, useage instructions and examples. New suggestions and contributions are always welcome. Just head over to the [Github repository](https://github.com/greatlakesdev/docs/issues) for the docs and create a new issue explaining what you think should be added.

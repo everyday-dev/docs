@@ -37,14 +37,10 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/greatlakesdev/docs/tree/main/',
         },
         blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          showReadingTime: true
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -59,7 +55,7 @@ const config = {
       navbar: {
         title: 'great lakes dev',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'great lakes dev logo',
           src: 'img/gld-logo.svg',
         },
         items: [
@@ -84,7 +80,7 @@ const config = {
             title: 'docs',
             items: [
               {
-                label: 'Tutorial',
+                label: 'Introduction',
                 to: '/docs/intro',
               },
             ],
