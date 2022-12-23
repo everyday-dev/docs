@@ -3,7 +3,7 @@ sidebar_position: 1
 ---
 
 # Introduction 👋
-Welcome to great lakes dev! A collection of projects and products all containing FOSS and OSHW. The goal is to provide cool and useful tools, gadgets and software designs to you for free so you can build on your own!
+Welcome to great lakes dev! A collection of projects and products all containing FOSS and OSHW. The goal is to provide cool and useful tools, gadgets and software designs to you for free so you can build it on your own!
 
 🛒 If you just want to start tinkering with a piece of hardware and skip the build, you can pickup a fully built piece at the [shop - COMING SOON](./intro).
 
