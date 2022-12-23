@@ -1,15 +1,35 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 # breadboard-io
 
-## Introduction
-breadboard-io makes it easy to connect 4 LEDs and 4 push-buttons to a broadboard in a compact and neat footprint. Provide VCC, GND and your signal wires to other circuitry or microcontroller and you're ready to go. You can find the design files, latest release gerbers, BOM, schematic and 3d STEP model <a href="https://www.github.com/greatlakesdev/breadboard-io" target="_blank">on Github</a>.
-
 ![breadboard-io inserted into a breadboard with the second LED turned on](breadboard-io.JPG)
 
-## IO Diagram
-At a minimum you must provide a voltage power rail (VCC - max 5V), ground (GND), and at least a single signal wire (LEDx or SWx). All signals are active high - meaning when a push-button is pressed, SWx will go from GND to VCC. To turn on LEDx, you would apply a positive signal (VCC) to the pin.
+## Introduction
+breadboard-io makes it easy to connect 4 LEDs and 4 push-buttons to a broadboard in a compact and neat footprint. Provide VCC, GND and your signal wires to other circuitry or microcontroller and you're ready to go!
+
+:::info
+If you need to debug the board, you want to build your own or just understand the design better - you can find the design files, latest release gerbers, BOM,
+schematic and 3d STEP model <a href="https://www.github.com/greatlakesdev/breadboard-io" target="_blank">on Github</a>.
+:::
+
+## Hardware Overview
+The breadboard IO provides the user access to the following via a single 2.54" standard pin header:
+- 4x ```Active High``` push-buttons (labeled ```SWx```)
+- 4x ```Active High``` LEDs (labeled ```LEDx```)
+- 1x ```VCC``` pin to apply power to the board
+- 1x ```GND``` pin for grounding the board
+
+:::info
+```Active High``` means that the "thing" will turn on, or is active, when VCC is present - aka the signal is "High". Thus ```Active High```.
+
+Ex: ```SW1``` is normally at GND but when the ```SW1``` push-button is pressed, the ```SW1``` pin will go from GND to VCC.
+
+Ex: To turn on ```LED1```, you would apply a high or positive signal (VCC) to the ```LED1``` pin which then illuminates ```LED1```.
+:::
+
+
+To use breadboard-io you must at a minimum provide a voltage power rail to the ```VCC``` pin, a ground connection at the ```GND``` pin and connect at least a single signal wire (```LEDx``` or ```SWx```).
 
 :::caution
 The SWx output signals have a 1k ohm padding resistor to protect from any shortages. The SWx signals are fine for direct connection to a microcontroller or other high impedence circuits, but should not be used to directly drive any larger loads like a DC motor. Instead consider using a FET to control your load and then enable the FET gate using the SWx output.
