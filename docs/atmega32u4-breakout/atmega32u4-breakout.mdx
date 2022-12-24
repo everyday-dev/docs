@@ -11,12 +11,54 @@ Standard pitch spacing on the headers allow it to be inserted into a breadboard 
 a couple different paths when using the dev board. The first being bare-metal where you use the AVR toolchain and tools to compile your application and flash the device. The second
 option being to flash the Arduino bootloader, allowing you to write ```.ino``` scripts and upload them via USB. We have guides for both here in the docs!
 
+## Hardware Overview
 :::info
 If you need to debug the board, you want to build your own or just understand the design better - you can find the design files, latest release gerbers, BOM,
 schematic and 3d STEP model <a href="https://www.github.com/greatlakesdev/atmega32u4_breakout" target="_blank">on Github</a>.
 :::
 
-## Hardware Overview
-The silkscreen labeling on the PCB has the actual AVR port and pin names. The chart below can be used to determine the alternate functions of each pin.
+The ATmega32u4 microcontroller has the "standard" serial peripherals you would expect, a full-speed USB connection and a generous number of ADC inputs. The image below shows all of the GPIO port and
+pin numbers of the MCU, as well as the commonly used "Alternate functions" of each pin. The following sections below will describe in detail each category of pin funtions.
 
 ![pinout description of all the alt functions of the atmega32u4 breakout board](atmega32u4_breakout_pinout.png)
+
+### Power & GND
+The ATmega32u4 breakout board is capable of being powered in two ways:
+- The first being to connect a USB type C cable to the USB connector. This supplies 5V to the on board linear voltage regulator which
+then provides a 3.3V rail to the microcontroller. When connecting a USB cable 5V is also made availabe on the ```5V``` pin header pin.
+- The second method is to provide 5V to the ```5V``` pin. This will then supply the on board regulator which powers the 3v3 power rail. It is OK to use this method at the same time as
+plugging in a USB cable. A diode is in place to prevent back-feeding the 5V power rail into the USB connector.
+
+Regardless of which method you choose to power the board, the 3.3V rail will be made available on the ```3v3``` pins.
+:::caution
+It is not recommended to supply 3.3V to the ```3v3``` pins as it could damage the on board linear voltage regulator.
+:::
+
+### GPIO
+Every GPIO in can be used for reading in or writing out a signal and some also have the ability to trigger interrupts on Rising or falling edges when configured as an input.
+The naming convention is [PORT_LETTER][PIN_NUMBER] - for example D5 is port D, pin 5.
+
+### Clock
+The breakout board has had the fuses written to enable the internal 8Mhz RC oscillator as the default clock source and a clock divider of 8, giving a core clock frequency of 1Mhz. If this configuration is left, the user can ignore the ```XTAL1``` and ```XTAL2```
+pins. However, if you would like to provide a higher frequency input clock (8-16Mhz), the fuses can be adjusted to change the default clock source to be exernal or
+a clock switch over can be executed in the user application.
+
+### Serial
+The ATmega32u4 breakout has one instance of the major serial interfaces:
+- ```USB Full-Speed```: USB Full-Speed capable of synchrounous serial communication at a frequency of 12MHz
+- ```TWI```: Two Wire Interface or I2c supports half-duplex serial communication to a max of 128 peripherals on a reduced two wire interface at a max frequency of 400kHz
+- ```USART```: Universal Synchronous and Asynchronous Receiver and Transmitter supports full-duplex serial communication with hardware flow-control support
+- ```SPI```: Serial Peripheral Interface supports full-duplex serial communication to one or more peripherals at a max frequnecy of ```CORE_CLOCK_FREQ / 2``` MHz
+
+:::note
+The ```CS``` pin does not have to be used when utilizing the ```SPI``` peripheral. The user can instead manually actuate a ```GPIO``` pin connected to a peripherals ```CS``` line.
+This allows for a larger bus and more peripherals to be connected at once.
+:::
+
+### Analog
+The breakout board has several 8-bit ```ADC```, or Analog to Digital Converter, pins. Each capable of reading in voltage ranges from 0 to 3.3V giving a reading accuracy down to ~13mV.
+
+### Special & Programming
+The special pins are generally used for programming the device via a JTAG interface. You can also use the ```nRST``` pin in general use to reset the MCU in the case the application hangs or a larger system reset
+is needed. Atmel sells a programmer called the Atmel-ICE programmer capable of programming AVR microcontrollers via JTAG, but it also supports programming via SPI when used in conjuction with the ```nRST``` pins.
+To program the breakout board via SPI you can connect to the dedicated programming header or you can use the ```B0``` - ```B4``` GPIO pins which have the ```SPI``` alternate function.
