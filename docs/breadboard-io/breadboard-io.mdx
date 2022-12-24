@@ -6,7 +6,7 @@ sidebar_position: 3
 ![breadboard-io inserted into a breadboard with the second LED turned on](breadboard-io.JPG)
 
 ## Introduction
-breadboard-io makes it easy to connect 4 LEDs and 4 push-buttons to a broadboard in a compact and neat footprint. Provide VCC, GND and your signal wires to other circuitry or microcontroller and you're ready to go!
+breadboard-io makes it easy to connect 4 LEDs and 4 push-buttons to a breadboard in a compact and neat footprint. Provide VCC, GND and your signal wires to other circuitry or microcontroller and you're ready to go!
 
 :::info
 If you need to debug the board, you want to build your own or just understand the design better - you can find the design files, latest release gerbers, BOM,
@@ -14,7 +14,7 @@ schematic and 3d STEP model <a href="https://www.github.com/greatlakesdev/breadb
 :::
 
 ## Hardware Overview
-The breadboard IO provides the user access to the following via a single 2.54" standard pin header:
+breadboard-io provides the user access to the following via a single 2.54" pitch pin header:
 - 4x ```Active High``` push-buttons (labeled ```SWx```)
 - 4x ```Active High``` LEDs (labeled ```LEDx```)
 - 1x ```VCC``` pin to apply power to the board
@@ -22,10 +22,6 @@ The breadboard IO provides the user access to the following via a single 2.54" s
 
 :::info
 ```Active High``` means that the "thing" will turn on, or is active, when VCC is present - aka the signal is "High". Thus ```Active High```.
-
-Ex: ```SW1``` is normally at GND but when the ```SW1``` push-button is pressed, the ```SW1``` pin will go from GND to VCC.
-
-Ex: To turn on ```LED1```, you would apply a high or positive signal (VCC) to the ```LED1``` pin which then illuminates ```LED1```.
 :::
 
 
