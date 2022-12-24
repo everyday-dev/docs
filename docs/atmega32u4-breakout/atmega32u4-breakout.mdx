@@ -61,4 +61,4 @@ The breakout board has several 8-bit ```ADC```, or Analog to Digital Converter, 
 ### Special & Programming
 The special pins are generally used for programming the device via a JTAG interface. You can also use the ```nRST``` pin in general use to reset the MCU in the case the application hangs or a larger system reset
 is needed. Atmel sells a programmer called the Atmel-ICE programmer capable of programming AVR microcontrollers via JTAG, but it also supports programming via SPI when used in conjuction with the ```nRST``` pins.
-To program the breakout board via SPI you can connect to the dedicated programming header or you can use the ```B0``` - ```B4``` GPIO pins which have the ```SPI``` alternate function.
+To program the breakout board via SPI you can connect to the dedicated programming header which is the same signals as the ```B0``` - ```B4``` GPIO pins which have the ```SPI``` alternate function.
