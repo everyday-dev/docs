@@ -59,6 +59,7 @@ This allows for a larger bus and more peripherals to be connected at once.
 The breakout board has several 8-bit ```ADC```, or Analog to Digital Converter, pins. Each capable of reading in voltage ranges from 0 to 3.3V giving a reading accuracy down to ~13mV.
 
 ### Special & Programming
-The special pins are generally used for programming the device via a JTAG interface. You can also use the ```nRST``` pin in general use to reset the MCU in the case the application hangs or a larger system reset
+The special pins are generally used for programming the device via JTAG, SPI or USB DFU. You can also use the ```nRST``` pin in general use to reset the MCU in the case the application hangs or a larger system reset
 is needed. Atmel sells a programmer called the Atmel-ICE programmer capable of programming AVR microcontrollers via JTAG, but it also supports programming via SPI when used in conjuction with the ```nRST``` pins.
-To program the breakout board via SPI you can connect to the dedicated programming header which is the same signals as the ```B0``` - ```B4``` GPIO pins with the ```SPI``` alternate function.
+To program the breakout board via SPI you can connect to the dedicated programming header which is the same signals as the ```B0``` - ```B4``` GPIO pins with the ```SPI``` alternate function. To initiate USB bootloading
+the ```nHWB``` pin can be held ```LOW``` while momentarily pulling ```nRST``` low and then releasing it.
