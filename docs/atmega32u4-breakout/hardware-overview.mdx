@@ -39,15 +39,7 @@ The breakout board has three on board status LEDs.
 - Status LED: General purpose LED that can be used in the user application. This LED is driven via the ```D4``` GPIO.
 
 ### Clock
-The breakout board has had the fuses written to enable the internal 8Mhz RC oscillator as the default clock source and a clock divider of 8, giving a core clock frequency of 1Mhz. If this configuration is left, the user can ignore the ```XTAL1``` and ```XTAL2```
-pins. However, if you would like to provide a higher frequency input clock (8-16Mhz), the fuses can be adjusted to change the default clock source to be exernal or
-a clock switch over can be executed in the user application transitioning the clock to be driven from an external crystal connected to ```XTAL1``` and ```XTAL2```.
-- ```XTAL1```: External Crystal pin 1
-- ```XTAL2```: External Crystal pin 2
-
-:::note
-If an external crystal is used, the frequency must be between 8 and 16MHz
-:::
+The breakout board has an on-board 16MHz crystal giving a final ```CORE_FREQ``` of 16MHz
 
 ### USB
 USB Full-Speed capable of synchrounous serial communication at a frequency of 12MHz
