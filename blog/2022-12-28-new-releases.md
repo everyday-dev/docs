@@ -1,7 +1,7 @@
 ---
 title: New releases 🎉 (kicad & avr templates, breakout boards)
 authors: stephen
-tags: [introduction]
+tags: [new-release]
 ---
 
 I'm happy to finally be sharing several new projects with others! The templates will always be "under development" as I continue to add new suggestions and tweaks that make them more useful but the PCBs are pretty much "produciton" intent as most of the bugs have already been worked out.
