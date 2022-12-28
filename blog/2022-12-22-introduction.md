@@ -1,5 +1,4 @@
 ---
-slug: introduction
 title: Introduction
 authors: stephen
 tags: [introduction]
