@@ -143,6 +143,10 @@ a third-party such a an SDK from a manufacturer or a useful helper library from 
 Using the Ceedling tool to add new source files will not only add a new source file to the ```src/``` folder but it will also add a new unit-test source file
 within the ```test/``` folder. To add a new source and unit-test file execute the following (Don't include a .c or .h in the filename)
 
+:::caution
+The ```ceedling``` gem does not work well when used with the ```zsh``` interpreter. Instead try executing ```bash``` before
+adding new source via ceedling.
+:::
 ```console
 ceedling module:create[FILENAME]
 ```
