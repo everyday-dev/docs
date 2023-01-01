@@ -1,8 +1,7 @@
 ---
 sidebar_position: 2
 ---
-
-# Hardware Overview
+# Pinout
 :::info
 If you need to debug the board, you want to build your own or just understand the design better - you can find the design files, latest release gerbers, BOM,
 schematic and 3d STEP model <a href="https://www.github.com/greatlakesdev/atmega32u4_breakout" target="_blank">on Github</a>.
@@ -83,7 +82,6 @@ The breakout board has twelve 10-bit ```ADC```, or Analog to Digital Converter, 
 - ```ADC12 / B5```: Analog input 12 or GPIO ```B5```
 - ```ADC13 / B6```: Analog input 13 or GPIO ```B6```
 
-
 ### Special and Programming
 The special pins are generally used for programming the device via JTAG or USB DFU and are as follows
 - ```nRST```: Active Low chip reset
@@ -96,7 +94,3 @@ The special pins are generally used for programming the device via JTAG or USB D
 #### AVR-SPI ```PROG``` header
 A dedicated programming header is available on the breakout board which matches the AVR-SPI standard programming pinout. These SPI pins are the same signals
 found down the left side of the board on GPIOs ```B1``` - ```B3```
-
-:::info
-More information on programming and bootloading the device can be found in the [programming](programming) docs.
-:::

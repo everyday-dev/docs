@@ -1,0 +1,253 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Introduction
+The avr-cmake-template is great for getting up and going fast when building AVR based firmware using VScode, CMake and the AVR toolchain. Not only does this template provides you with the
+ability to build and flash AVR based firmware, it also provides unit testing capabilites via Ceedling and CI/CD support using Github Workflows.
+
+## Tools Setup
+There are a handful of tools needed to use this template. Several are required such as the AVR toolchains and others are not, such as the Ceedling unit testing framework. We will outline
+the install of the required and nice to have tools in seperate steps.
+
+### Required
+At a minium we need to install the following tools to compile AVR executable artifacts. This template is tested at the latest version of each tool and YMMV when using older versions.
+-   [avr-gcc / avr-libc](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers)
+-   [make](https://www.gnu.org/software/make/manual/make.html)
+-   [CMake](https://cmake.org/download/)
+
+Execute these install steps for your respective OS.
+<Tabs groupId="operating-systems">
+  <TabItem value="ubuntu" label="Ubuntu" default>
+
+  ```console
+  sudo apt install avr-gcc avr-libc make cmake
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+:::note
+These instructions must be run in a ``cmd.exe`` command prompt. The
+required commands differ on PowerShell.
+:::
+
+- Install the ```choco``` package manager for Windows if you haven't already
+- Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
+- Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
+```console
+    choco feature enable -n allowGlobalConfirmation
+```
+- Now install the needed dependencies
+``` console
+    choco install make
+    choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+```
+- Install the ```avr-gcc``` toolchain using the installer provided on the [Microchip site](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers).
+
+
+  </TabItem>
+</Tabs>
+
+### Nice to have
+A handful of nice to have tools can be added to give the ability to flash a microcontroller via a standard prog interface or USB DFU, execute unit-tests against the end users application,
+and integrate CI/CD via Github workflows.
+-   [avrdude](https://github.com/avrdudes/avrdude): Program your AVR chip via JTAG, SPI, debugWIRE, PDI, etc
+-   [dfu-programmer](https://dfu-programmer.github.io/): Program your AVR chip using a built-in USB DFU bootloader
+-   [Ruby](https://www.ruby-lang.org): Needed to install and execute the ```ceedling``` gem for Unit Testing
+-   [Ceedling](http://www.throwtheswitch.org/ceedling): Unit testing framework consisting of Unity & CMock
+-   [Python](https://www.python.org/downloads/): Needed to install the ```gcovr``` package
+-   [gcovr](https://gcovr.com/en/stable/): Generate pretty and useful to use HTML based reports of your unit testing coverage and results
+
+Execute these install steps for your respective OS.
+<Tabs groupId="operating-systems">
+  <TabItem value="ubuntu" label="Ubuntu" default>
+
+  ```console
+  sudo apt install avrdude ruby
+  sudo gem install ceedling
+  python -m pip install gcovr
+  ```
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+:::note
+These instructions must be run in a ``cmd.exe`` command prompt. The
+required commands differ on PowerShell.
+:::
+
+- Install the ```choco``` package manager for Windows if you haven't already
+- Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
+- Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
+```console
+    choco feature enable -n allowGlobalConfirmation
+```
+- Now install the needed dependencies
+``` console
+    choco install python ruby
+    gem install ceedling
+    python -m pip install gcovr
+```
+
+  </TabItem>
+</Tabs>
+
+With the required tools installed you're ready to start editing the CMake project to be specific to your application/microcontroller!
+
+## CMake Project Configuration
+The template comes with a ```CMakeLists.txt``` file already filled out but the user should edit these variables as necessary for their
+project. Within the CMake file there is a comment header at the beginning and ending of the variables you are to edit. Do not
+edit anything outside of the headers as you could break the template.
+```CMake
+#####################################################################################
+# Set our project and CPU specific flags, options, definitions and Linker Settings
+#####################################################################################
+
+...
+
+#####################################################################################
+# End of project and CPU specific items - DO NOT EDIT ANYTING BELOW THIS POINT
+#####################################################################################
+
+````
+
+A list and description of these variables you should update are below.
+
+- **PRODUCT_NAME**: This will be the name of the final executable e.g. ```PRODUCT_NAME.hex```
+- **MCU**: This is the part number of the AVR MCU you are using. The compiler expects a certain string for each part. Consult
+[this list](https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html) of AVR options to ensure you use the correct PN#
+- **PROG_TYPE**: This specifies the programmer type you intend to use if programming via JTAG, ISP, PDI etc. Available programmers/strings
+can be found executing ```avrdude -c help``` from the command line (This assumes you have installed ```avrdude``` on your machine).
+- **COMPILE_OPTIONS**: These are a list of the compiler options you wish to use. Most applications the default compiler options can be left
+as is, however the user may need to add or remove options as needed. You can also use the compiler options to add definitions via the ```-D```
+flag. Note that the ```-DF_CPU``` flag has been set and should be updated to your MCUs core clock frequency.
+- **LINKER_FLAGS**: Here you can add or remove any additional linker flags needed for your application
+- **LINKER_STATIC_LIBRARIES**: If you are integrating any static libraries (```*.a```) from a vendor or other developer, you can specify them here
+so your final application will be linked against them.
+- ** *_FUSE_VAL **: The [AVR Fuse Calculator](https://www.engbedded.com/fusecalc/) is a great resource for determining what your fuse values should be for a given application.
+    - **LOW_FUSE_VAL**: Value you would like to write into the LOW fuse
+    - **HIGH_FUSE_VAL**: Value you would like to write into the HIGH fuse
+    - **EXTENDED_FUSE_VAL**: Value you would like to write into the EXTENDED fuse
+- **APP_SRC**: Here you would specify a list of your applications source and board files
+- **INCLUDE_DIRS**: This is a list of directories you wish to include into the compiler and linker search paths
+- **CMAKE_SUBDIRS**: If you have any dependency projects that are CMake based and you would like to include them into your build, you would
+specify a path to their location here.
+- **VENDOR_SRC**: These are application source files you wish to compile directly into your app that may be provided from
+a third-party such a an SDK from a manufacturer or a useful helper library from an open-source project.
+
+## Adding new source files via **Ceedling**
+Using the Ceedling tool to add new source files will not only add a new source file to the ```src/``` folder but it will also add a new unit-test source file
+within the ```test/``` folder. To add a new source and unit-test file execute the following (Don't include a .c or .h in the filename)
+
+```console
+ceedling module:create[FILENAME]
+```
+Once you add the new source & unit-test file is created, don't forget to add the newly created ```src/*.c``` file to the ```APP_SRC``` variable in ```CMakeLists.txt```
+
+## Initial Build Setup
+After a fresh clone of your project, the ```setup``` script can be used to initialize the CMake build directory
+<Tabs groupId="operating-systems">
+  <TabItem value="ubuntu" label="Ubuntu" default>
+
+```console
+./setup.sh
+```
+
+  </TabItem>
+
+  <TabItem value="windows" label="Windows">
+
+```console
+setup.ps1
+```
+
+  </TabItem>
+</Tabs>
+
+## Compiling, Flashing & Testing
+Once a ```build/``` directory has been initialized the following ```make``` commands can be ran from the ```build/``` folder
+
+#### Compiling
+To clean the build directory and compile a fresh build:
+```bash
+make clean
+```
+
+To compile the source:
+```bash
+make -j8
+```
+#### Flashing
+<Tabs groupId="prog-type">
+  <TabItem value="programmer" label="avr-dude / programmer" default>
+
+To erase the connected target:
+```bash
+make erase
+```
+
+To flash the connected target:
+```bash
+make flash
+```
+
+To write the fuses:
+```bash
+make write_fuses
+```
+
+To read the fuses:
+```bash
+make read_fuses
+```
+
+  </TabItem>
+
+  <TabItem value="dfu" label="USB DFU">
+
+To erase the connected target:
+```bash
+make dfu_erase
+```
+
+To flash the connected target:
+```bash
+make dfu_flash
+```
+
+To write the fuses:
+```bash
+make dfu_write_fuses
+```
+
+To read the fuses:
+```bash
+make dfu_read_fuses
+```
+
+  </TabItem>
+</Tabs>
+
+#### Testing
+To execute unit tests:
+```bash
+make test
+```
+
+## Continuous Integration/Deployment
+The template takes advantage of the Github Workflows capability and will continuously build and execute unit-tests
+against your firmware when pushed to a Github repository. To utilize these workflows a certain developers strategy must
+be followed. All development should be done out of a ```develop``` branch. New features/branches should be made from this branch
+and then merged back upon completion. When the developer is ready to create an official release, they would initiate a PR from
+the ```develop``` branch into the ```main``` branch. This gives a clear seperation between what is released and under active
+development. That being said, there are two integration used in this process and the configuration can be found within the
+```.github/workflows/``` folder.
+- **```ci.yml```**: The continuous integration (**ci**) config will build the application firmware and execute
+unit-tests on every pull-request into a branch named ```develop``` or ```main```.
+- **```release.yml```**: The release integration will not only build and test the firmware but it will also tag the git commit
+with a tag matching the version found in ```src/version.h``` and create a Github Release with the final binaries, source code and
+unit-test results attached to it. This integration is triggered on every commit to the ```main``` branch.
