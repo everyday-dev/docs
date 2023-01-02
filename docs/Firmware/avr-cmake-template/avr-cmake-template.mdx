@@ -10,8 +10,8 @@ The avr-cmake-template is great for getting up and going fast when building AVR 
 ability to build and flash AVR based firmware, it also provides unit testing capabilites via Ceedling and CI/CD support using Github Workflows.
 
 ## Tools Setup
-There are a handful of tools needed to use this template. Several are required such as the AVR toolchains and others are not, such as the Ceedling unit testing framework. We will outline
-the install of the required and nice to have tools in seperate steps.
+There are a handful of tools needed to use this template. Several are required such as the AVR toolchains and tools like the Ceedling unit testing framework are not necessarily required.
+We will outline the install of the required and nice to have tools in seperate steps.
 
 ### Required
 At a minium we need to install the following tools to compile AVR executable artifacts. This template is tested at the latest version of each tool and YMMV when using older versions.
@@ -150,10 +150,10 @@ adding new source via ceedling.
 ```console
 ceedling module:create[FILENAME]
 ```
-Once you add the new source & unit-test file is created, don't forget to add the newly created ```src/*.c``` file to the ```APP_SRC``` variable in ```CMakeLists.txt```
+Once the new source & unit-test file is created, don't forget to add the newly created ```src/*.c``` file to the ```APP_SRC``` variable in ```CMakeLists.txt```
 
 ## Initial Build Setup
-After a fresh clone of your project, the ```setup``` script can be used to initialize the CMake build directory
+After a fresh clone of your project the ```setup``` script can be used to initialize the CMake build directory
 <Tabs groupId="operating-systems">
   <TabItem value="ubuntu" label="Ubuntu" default>
 
