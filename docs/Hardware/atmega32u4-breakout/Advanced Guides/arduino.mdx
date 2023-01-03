@@ -1,6 +1,61 @@
 ---
 sidebar_position: 1
+slug: /atmega32u4_breakout/advanced-guides/flashing-arduino-bootloader
 ---
 
-# Using the Arduino IDE
-// TODO
+# Flashing the Arduino Bootloader
+
+## Introduction
+If you have an atmega32u4 breakout board with the ```bare-metal``` bootloaders (or empty flash) and would like to use the board with the Arduino IDE, we will need to do
+a couple different things. To begin you will need to gather the necessary tools outlined in the Prerequisite section
+
+## Prerequisites
+You will need a couple different tools to write the Arduino bootloader
+- [avrdude](https://github.com/avrdudes/avrdude)
+- [Arduino IDE](https://www.arduino.cc/en/software)
+- AVR ISP programmer (1x of the following)
+    - [AVRISP MKII programmer](https://www.amazon.com/Programmer-USB-AVRISP-XPII-Compatible/dp/B00KM6ZA9I/ref=sr_1_4?crid=2E8DSYQHJD8S8&keywords=avrisp+mkii&qid=1672774084&s=electronics&sprefix=avrisp+mkii%2Celectronics%2C78&sr=1-4)
+    - [Atmel ICE](https://www.microchip.com/en-us/development-tool/ATATMEL-ICE)
+    - Arduino running the ```Arduino ISP``` example sketch
+
+:::warning
+If you use an Arduino as an ISP programmer, make sure it is an Arduino with 3.3V logic levels. An Arduino Uno, for example, will not work as it runs a 5V logic level and can cause
+damage to the atmega32u4 pins.
+:::
+
+## Writing the fuses
+At the time of writing this documentation, I was having issues getting the Arduino IDE to properly write the AVR fuses for me. To get around this I had to use ```avrdude```
+and an ISP programmer to first write the fuses myself before writing the bootloader with the Arduino IDE. The fuse values are as follows:
+- LFUSE: 0xDE
+- HFUSE: 0xD8
+- EFUSE: 0xCB
+
+The most notable change in these fuse values are to enable the boot reset vector fuse which causes the MCU to start looking for a bootloader in the boot section of flash where the Arduino
+bootloader will be placed. The other changes consist of setting the clock to use the EXT crystal (16MHz) and disable the ```DIV/8``` fuse giving a
+final core clock of 16MHz.
+
+To write the fuses you need to connect the 6pin ISP header to your programmer and then execute the following via CLI (The below uses the Atmel ICE programmer)
+```console
+avrdude -p atmega32u4 -c atmelice_isp -U lfuse:w:0xde:m -U hfuse:w:0xd8:m -U efuse:w:0xcb:m
+```
+
+With the fuses set, we are now ready to open the Arduino IDE and flash the bootloader.
+
+## Flashing the bootloader
+To write the bootloader we need to open the Arduino IDE set the correct board. We want to select the ```Arduino Micro``` as this is another Arduino based board using the same
+atmega32u4 MCU:
+```Tools -> Board -> Arduino AVR Boards -> Arduino Micro```. Now set the programmer to the correct ISP programmer you are using: ```Tools -> Programmer -> Atmel-ICE (AVR)```.
+
+With our board and programmer set, we are ready to write the bootloader: ```Tools -> Burn Bootloader```. This process will take 1 to 2 minutes to complete. Once finished, power-cycle
+the board and you should now see the ```Arduino Micro``` show up as an available Port under ```Tools -> Port```
+
+:::note
+You might encounter an error at the end of writing the bootloader such as the following:
+```console
+avrdude: verification error, first mismatch at byte 0x0000
+         0xff != 0x2f
+avrdude: verification error; content mismatch
+Failed to burn bootloader: uploading error: exit status 1
+```
+This can be ignored and you should now have the ```Arduino Micro``` available under ```Tools -> Port```
+:::

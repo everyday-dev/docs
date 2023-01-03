@@ -1,12 +1,19 @@
 ---
 sidebar_position: 3
+slug: /atmega32u4_breakout/getting-started
 ---
 # Getting Started
-To get started using the atmega32u4 breakout board I highly recommend you use our [avr-cmake-template](https://github.com/greatlakesdev/avr-cmake-template). You can find
-the docs that walk through the template and explain how to customize it [here](https://www.greatlakesdev.io/docs/Firmware/avr-cmake-template/), but its default
-configuration is setup for the atmega32u4 so no changes are necessary. It does assumes you will be using a programmer like the avrispMKII or the Atmel-ICE programmer to
-program the chip via the on-board ```PROG```/```ISP``` header.
+The default setup for the atmega32u4 breakout board is ready to use in ```bare-metal``` applications and uses either the USB-DFU bootloader or an ISP programmer like the
+AtmelICE or avrispMKII programmers.
+:::note
+It is an option to purchase the atmega32u4 breakout board pre-loaded with the Arduino Micro bootloader so you can get up and running right away in the
+Arduino IDE!
+:::
+
+In ```bare-metal``` applicatoins we highly recommend you use our [avr-cmake-template](https://github.com/greatlakesdev/avr-cmake-template) as
+it handles a lot of the project setup and tooling for you. You can find the docs that walk through the template and explain how to customize it [here](/docs/avr-cmake-template/),
+but its default configuration is setup for the atmega32u4 so no changes are necessary to get started.
 
 :::tip Next steps
-If you're looking for more information on using the breakout board with the Arduino IDE or adding a USB-DFU bootloader then checkout the [Advanced Guides](./Advanced%20Guides/index.mdx)
+If you're looking for more information on how to reflash the ```bare-metal``` or ```Arduino``` bootloaders then check out the [Advanced Guides](./advanced-guides) for more information.
 :::
