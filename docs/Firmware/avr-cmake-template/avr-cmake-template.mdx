@@ -76,27 +76,33 @@ Execute these install steps for your respective OS.
   sudo gem install ceedling
   python -m pip install gcovr
   ```
+  - Download and install [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```.tar.gz``` provided in the Releases section
+
 
   </TabItem>
   <TabItem value="windows" label="Windows">
 
 :::note
-These instructions must be run in a ``cmd.exe`` command prompt. The
-required commands differ on PowerShell.
+  These instructions must be run in a ``cmd.exe`` command prompt. The
+  required commands differ on PowerShell.
 :::
 
-- Install the ```choco``` package manager for Windows if you haven't already
-- Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
-- Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
-```console
-    choco feature enable -n allowGlobalConfirmation
-```
-- Now install the needed dependencies
-``` console
-    choco install python ruby
-    gem install ceedling
-    python -m pip install gcovr
-```
+  - Install the ```choco``` package manager for Windows if you haven't already
+  - Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
+  - Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
+  ```console
+      choco feature enable -n allowGlobalConfirmation
+  ```
+  - Now install the needed dependencies
+  ``` console
+      choco install python ruby
+      gem install ceedling
+      python -m pip install gcovr
+  ```
+
+  - Download and install [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```x86``` or ```x64``` zip files
+  provided in the Releases section
+
 
   </TabItem>
 </Tabs>
@@ -182,12 +188,12 @@ Once a ```build/``` directory has been initialized the following ```make``` comm
 
 #### Compiling
 To clean the build directory and compile a fresh build:
-```bash
+```console
 make clean
 ```
 
 To compile the source:
-```bash
+```console
 make -j8
 ```
 #### Flashing
@@ -195,22 +201,22 @@ make -j8
   <TabItem value="programmer" label="avr-dude / programmer" default>
 
 To erase the connected target:
-```bash
+```console
 make erase
 ```
 
 To flash the connected target:
-```bash
+```console
 make flash
 ```
 
 To write the fuses:
-```bash
+```console
 make write_fuses
 ```
 
 To read the fuses:
-```bash
+```console
 make read_fuses
 ```
 
@@ -219,22 +225,22 @@ make read_fuses
   <TabItem value="dfu" label="USB DFU">
 
 To erase the connected target:
-```bash
+```console
 make dfu_erase
 ```
 
 To flash the connected target:
-```bash
+```console
 make dfu_flash
 ```
 
 To write the fuses:
-```bash
+```console
 make dfu_write_fuses
 ```
 
 To read the fuses:
-```bash
+```console
 make dfu_read_fuses
 ```
 
@@ -243,7 +249,7 @@ make dfu_read_fuses
 
 #### Testing
 To execute unit tests:
-```bash
+```console
 make test
 ```
 
