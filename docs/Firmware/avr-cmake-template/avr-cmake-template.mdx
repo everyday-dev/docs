@@ -77,6 +77,7 @@ Execute these install steps for your respective OS.
   python -m pip install gcovr
   ```
   - Download and install [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```.tar.gz``` provided in the Releases section
+    - Ensure ```dfu-programmer``` is available from the command line by adding it to your ```$PATH``` environment variable
 
 
   </TabItem>
@@ -210,16 +211,6 @@ To flash the connected target:
 make flash
 ```
 
-To write the fuses:
-```console
-make write_fuses
-```
-
-To read the fuses:
-```console
-make read_fuses
-```
-
   </TabItem>
 
   <TabItem value="dfu" label="USB DFU">
@@ -234,18 +225,22 @@ To flash the connected target:
 make dfu_flash
 ```
 
+  </TabItem>
+</Tabs>
+
+#### Fuses
+:::note
+Reading and writing fuses is only supported when connected to the target via avrdude & programmer
+:::
 To write the fuses:
 ```console
-make dfu_write_fuses
+make write_fuses
 ```
 
 To read the fuses:
 ```console
-make dfu_read_fuses
+make read_fuses
 ```
-
-  </TabItem>
-</Tabs>
 
 #### Testing
 To execute unit tests:
