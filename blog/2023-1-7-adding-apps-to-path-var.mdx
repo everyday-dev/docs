@@ -1,0 +1,69 @@
+---
+title: DEV101 ⚡ Adding applications to the PATH env variable
+authors: stephen
+tags: [dev101]
+---
+It often occurs in a developers day that they need to install a new application and be able to access it from the command line. In most cases a nicely packaged
+installer (```.msi```, ```.exe``` or ```.AppImage```) is there to handle this process for you, along with setting up directories and default config all with a few clicks through a GUI.
+Same goes for installing packages via a package manger like ```apt``` for Linux or ```choco``` for Windows. A single command and the process is done.
+
+Although this is incredibly convenient, not all applications ship with an installer. You may encounter application directories that have been "zipped" or "tar-balled", and once
+extracted gives you access to the application and dependencies when executed from it's current home. When you receive a compressed application folder like this, there will often
+be a folder within called ```bin``` containing all of the necessary exectuables within - including the binary you likely want to execute from the command line. The easiest
+way to make these binaries accessible is to add the included ```bin``` directory to your ```PATH``` environment variable. The few steps below will walk you through doing this in both Linux and Windows.
+
+:::note
+As an example, we are going to install the [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) CLI which allows a user to reflash
+Atmel AVR microcontrollers via the USB-DFU class. The contents or use of the application is not important here but rather the process. If you'd like to follow along installing
+a different application, feel free to do so.
+:::
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs groupId="operating-systems">
+  <TabItem value="ubuntu" label="Ubuntu" default>
+
+
+- To begin, place the uncompressed application folder wherever you'd like on the filesystem. Typically when installing applications in this manner,
+you would place the application in the ```/usr/local``` folder.
+```console
+sudo mv dfu-programmer/ /usr/local/dfu-programmer
+```
+- Now that the application is in its final resting place, we can begin to add it to our PATH variable. If we ```ls``` the application directory, we find the ```dfu-progammer```
+executable. You may have another layer with a ```bin``` folder within that then contains your executable you want to execute. Regardless of where the binary actually lives, we
+want to add the full path to its location to our PATH environment variable. To do so, edit the ```.bashrc``` file located in your home directory.
+```bash
+vi ~/.bashrc
+````
+- Add the following line anywhere in the ```.bashrc``` file. This rc file is loaded every time a terminal is opened. The line below will prepend the location of our executable
+to the ```PATH``` environment variable. Note that this is the folder that contains the executable and we do not include the executable name when adding it to our environment
+variable. This list of directories in the ```PATH``` environment variable are searched through when trying to find a matching application to a command
+called on the CLI.
+```bash
+export PATH=/usr/local/dfu-programmer:$PATH
+```
+- To test if our changes worked, source the rc file - making our current shell aware of the new directory we've added to the ```PATH``` environment variable.
+```console
+source ~/.bashrc
+````
+- Now try and execute our application from any directory on the file system.
+```console
+cd ~
+dfu-programmer --version
+```
+- You should get a version string of 1.0.0
+```console
+dfu-programmer 1.0.0
+````
+
+That's it! You now have access to your application via the command line. This process can be repeated as necessary for multiple applications. The line added to the ```.bashrc```
+file prepends and builds a larger and larger list and does not replace any previous lines.
+
+  </TabItem>
+  <TabItem value="windows" label="Windows">
+
+  TODO: Need to switch over to Windows to document
+
+  </TabItem>
+</Tabs>
