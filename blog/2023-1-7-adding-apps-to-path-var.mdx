@@ -8,8 +8,8 @@ installer (```.msi```, ```.exe``` or ```.AppImage```) is there to handle this pr
 Same goes for installing packages via a package manger like ```apt``` for Linux or ```choco``` for Windows. A single command and the process is done.
 
 Although this is incredibly convenient, not all applications ship with an installer. You may encounter application directories that have been "zipped" or "tar-balled", and once
-extracted gives you access to the application and dependencies when executed from it's current home. When you receive a compressed application folder like this, there will often
-be a folder within called ```bin``` containing all of the necessary exectuables within - including the binary you likely want to execute from the command line. The easiest
+extracted gives you access to the application and dependencies when executed from it's current home. When you receive a compressed application folder like this, it might just be
+the needed application or there will often be a folder within called ```bin``` which contains all of the necessary exectuables - including the binary you likely want to execute from the command line. The easiest
 way to make these binaries accessible is to add the included ```bin``` directory to your ```PATH``` environment variable. The few steps below will walk you through doing this in both Linux and Windows.
 
 :::note
