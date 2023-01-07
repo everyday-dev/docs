@@ -51,7 +51,8 @@ required commands differ on PowerShell.
     choco install make
     choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 ```
-- Install the ```avr-gcc``` toolchain using the installer provided on the [Microchip site](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers).
+- Install the ```avr-gcc``` toolchain provided on the [Microchip site](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers). The extracted toolchain can be placed wherver you like. Once extracted add the ```bin``` folder path to your Path environment variable.
+  - Verify ```avr-gcc``` is available from the CLI once completed.
 
 
   </TabItem>
@@ -94,13 +95,15 @@ Execute these install steps for your respective OS.
   ```console
       choco feature enable -n allowGlobalConfirmation
   ```
-  - Now install the needed dependencies
+  - Install the Python and Ruby choco packages
   ``` console
       choco install python ruby
+  ```
+  - Close the termainal and open a new one as an Administrator and then execute the following
+  ```console
       gem install ceedling
       python -m pip install gcovr
   ```
-
   - Download and install [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```x86``` or ```x64``` zip files
   provided in the Releases section
 
@@ -176,6 +179,13 @@ After a fresh clone of your project the ```setup``` script can be used to initia
   </TabItem>
 
   <TabItem value="windows" label="Windows">
+
+:::note
+If you have never run powershell scripts on your machine before, you will likely need to allow remote signed scripts. To do so open Poweshell as an administrator and execute the following. Once complete the ```setup``` script should be run from Powershell
+```console
+set-executionpolicy remotesigned
+```
+:::
 
 ```console
 setup.ps1
