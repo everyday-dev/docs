@@ -225,6 +225,9 @@ make flash
 
   <TabItem value="dfu" label="USB DFU">
 
+:::note
+These commands require the USB-DFU bootloader to be present and enumerated on your microcontroller.
+:::
 To erase the connected target:
 ```console
 make dfu_erase
@@ -271,3 +274,8 @@ unit-tests on every pull-request into a branch named ```develop``` or ```main```
 - **```release.yml```**: The release integration will not only build and test the firmware but it will also tag the git commit
 with a tag matching the version found in ```src/version.h``` and create a Github Release with the final binaries, source code and
 unit-test results attached to it. This integration is triggered on every commit to the ```main``` branch.
+
+:::tip Next steps
+With your project set up and ready to go, checkout this Advanced guide on [flashing the DFU bootloader](/docs/atmega32u4_breakout/advanced-guides/flashing-dfu-bootloader) to make it quick and
+easy to flash your applications using a single USB cable.
+:::
