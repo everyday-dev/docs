@@ -51,8 +51,8 @@ required commands differ on PowerShell.
     choco install make
     choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 ```
-- Install the ```avr-gcc``` toolchain provided on the [Microchip site](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers). The extracted toolchain can be placed wherver you like. Once extracted add the ```bin``` folder path to your Path environment variable.
-  - Verify ```avr-gcc``` is available from the CLI once completed.
+- Install the ```avr-gcc``` toolchain provided on the [Microchip site](https://www.microchip.com/en-us/tools-resources/develop/microchip-studio/gcc-compilers). Once extracted add the
+```bin``` folder path to your Path environment variable. For more information on adding an app to your path, check out this [blog post](/blog/2023/1/7/adding-apps-to-path-var)
 
 
   </TabItem>
@@ -72,13 +72,13 @@ Execute these install steps for your respective OS.
 <Tabs groupId="operating-systems">
   <TabItem value="ubuntu" label="Ubuntu" default>
 
-  ```console
-  sudo apt install avrdude ruby
-  sudo gem install ceedling
-  python -m pip install gcovr
-  ```
-  - Download and install [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```.tar.gz``` provided in the Releases section
-    - Ensure ```dfu-programmer``` is available from the command line by adding it to your ```$PATH``` environment variable
+```console
+sudo apt install avrdude ruby
+sudo gem install ceedling
+python -m pip install gcovr
+```
+- Download [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```.tar.gz``` provided in the Releases section. Once extracted add it to your
+```PATH``` env. variable. For more information on adding an app to your path, check out this [blog post](/blog/2023/1/7/adding-apps-to-path-var)
 
 
   </TabItem>
@@ -89,23 +89,23 @@ Execute these install steps for your respective OS.
   required commands differ on PowerShell.
 :::
 
-  - Install the ```choco``` package manager for Windows if you haven't already
-  - Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
-  - Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
-  ```console
-      choco feature enable -n allowGlobalConfirmation
-  ```
-  - Install the Python and Ruby choco packages
-  ``` console
-      choco install python ruby
-  ```
-  - Close the termainal and open a new one as an Administrator and then execute the following
-  ```console
-      gem install ceedling
-      python -m pip install gcovr
-  ```
-  - Download and install [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```x86``` or ```x64``` zip files
-  provided in the Releases section
+- Install the ```choco``` package manager for Windows if you haven't already
+- Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
+- Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
+```console
+choco feature enable -n allowGlobalConfirmation
+```
+- Install the Python and Ruby choco packages
+``` console
+choco install python ruby
+```
+- Close the termainal and open a new one as an Administrator and then execute the following
+```console
+gem install ceedling
+python -m pip install gcovr
+```
+- Download [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) from the ```x86``` or ```x64``` zip files provided in the Releases section. Once
+extracted add it to your ```PATH``` env. variable. For more information on adding an app to your path, check out this [blog post](/blog/2023/1/7/adding-apps-to-path-var)
 
 
   </TabItem>
