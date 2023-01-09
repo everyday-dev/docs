@@ -8,9 +8,10 @@ installer (```.msi```, ```.exe``` or ```.AppImage```) is there to handle this pr
 Same goes for installing packages via a package manger like ```apt``` for Ubuntu or ```choco``` for Windows. A single command and the process is done.
 
 Although this is incredibly convenient, not all applications ship with an installer. You may encounter application directories that have been "zipped" or "tar-balled" and once
-extracted gives you access to the application and dependencies when executed from it's current home. When you receive a compressed application folder like this it might just be
-the needed application inside or there may be a folder within called ```bin``` which contains your application. The easiest way to make the application accessible from the CLI is to add
-the folder path containing it to the ```PATH``` environment variable. The few steps below will walk you through doing this in both Linux and Windows.
+extracted gives you access to the application and dependencies when executed from its current home. When you receive a compressed folder like this it might just be
+the needed app inside or there may be a folder within called ```bin``` which contains your app. The easiest way to make the app accessible from the CLI is to add
+the folder path containing it to the ```PATH``` environment variable. By adding the app directory to the ```PATH``` env. variable, we build a list of directories that are searched any time an
+app is called from the command line. The few steps below will walk you through doing this in both Linux and Windows.
 
 :::note
 As an example, we are going to install the [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer/releases/tag/v1.0.0) CLI which allows a user to reflash
@@ -24,14 +25,14 @@ import TabItem from '@theme/TabItem';
 <Tabs groupId="operating-systems">
   <TabItem value="ubuntu" label="Ubuntu" default>
 
-To begin, place the uncompressed application folder wherever you'd like on the filesystem. Typically when installing applications in this manner,
+To begin, place the uncompressed app folder wherever you'd like on the filesystem. Typically when installing applications in this manner,
 you would place the application in the ```/usr/local``` folder.
 ```console
 sudo mv dfu-programmer/ /usr/local/dfu-programmer
 ```
 
-If we ```ls``` the application directory, we find the ```dfu-progammer``` executable. You may have another layer with a ```bin``` folder within that then contains your executable you want to
-execute. Regardless of where the binary actually lives, we want to add the full path to its location to our PATH environment variable. To do so, edit the ```.bashrc``` file located in your home directory.
+If we ```ls``` the app directory, we find the ```dfu-progammer``` executable. You may have another layer with a ```bin``` folder within that then contains your executable you want to
+execute. Regardless of where the application actually lives we want to add the full path to its storage location, to our PATH env variable. To do so, edit the ```.bashrc``` file located in your home directory.
 ```bash
 vi ~/.bashrc
 ````
@@ -40,12 +41,12 @@ With the ```.bashrc``` file open - Add the following line anywhere in the file.
 ```bash
 export PATH=/usr/local/dfu-programmer:$PATH
 ```
-This rc file is loaded every time a terminal is opened and the line we just added will prepend the location of our executable to the ```PATH``` environment variable. To re-iterate, this line adds to
-the enviroment variable and does not overwrite it. This means if we have multiple applications to install in this manner, we can have multiple export statements that don't overwrite one another. By adding
-these export statements, we build a list of directories that are searched any time a binary is called from the command line.
 :::caution
 When adding the export statements you should use the path to the folder that contains the executable and should not include the executable name.
 :::
+The above line pre-pends the path to our dfu-programmer directory to the current ```$PATH``` env variable and then assigns that new list back to itself (```PATH```). This rc file we just edited is
+loaded every time a terminal is opened and the line we added will let our current shell know about the ```dfu-programmer``` location. To re-iterate, this line adds to the enviroment variable
+and does not overwrite it. This means if we have multiple applications to install in this manner, we can have multiple export statements one after another that will not overwrite one another.
 
 To test if our changes worked, source the rc file - making our current shell aware of the new directory we've added to the ```PATH``` environment variable.
 ```console
@@ -67,13 +68,54 @@ If the above did not work and you see something like ```Command X not found, did
 ```.bashrc``` file. To guarantee the new rc file is being sourced you can close your terminal, open a new one and try the command again.
 :::
 
-That's it! You now have access to your application via the command line. This process can be repeated as necessary for multiple applications. The line added to the ```.bashrc```
-file prepends and builds a larger and larger list and does not replace any previous lines.
-
   </TabItem>
   <TabItem value="windows" label="Windows">
 
-  TODO: Need to switch over to Windows to document
+:::note
+All of the commands in this guide are executed from a Powershell terminal.
+:::
+
+To begin, place the uncompressed app folder wherever you'd like on the filesystem. Typically when installing applications in this manner, I like to place the app folder in my root ```C:\```
+directory.
+```console
+mv dfu-programmer-x64-1.0.0 C:\
+```
+
+If we ```ls``` the app directory, we find the ```dfu-progammer.exe``` executable inside. You may have another layer with a ```bin``` folder within that then contains your executable you want to
+execute. Regardless of where the application actually lives we want to add the full path to its storage location, to our PATH env variable. To do so, execute the following from Powershell.
+```Powershell
+# Add to the current users path
+setx PATH "%PATH%;C:\dfu-programmer-x64-1.0.0"
+
+# Add to all users path. Will require the PS to be ran as Administrator
+# Start a new powershell as administrator
+Start-process powershell -verb runas
+setx /M PATH "%PATH%;C:\dfu-programmer-x64-1.0.0"
+````
+:::caution
+When adding to the ```PATH``` env variable you should use the path to the folder that contains the executable and should not include the executable name.
+:::
+The above line appends the path to our dfu-programmer directory to the ```%PATH%``` env variable and then assigns that new list back to itself (```PATH```). To re-iterate, this command adds to
+the enviroment variable and does not overwrite it.
+
+In order for the ```PATH``` changes to take effect we need to close our current terminal and open a new one. Once the new terminal is open try and execute our application from any
+directory on the file system.
+```console
+cd ~
+dfu-programmer --version
+```
+
+If we were succesfull then we should see a version string of 1.0.0 printed on the console.
+```console
+dfu-programmer 1.0.0
+````
+:::note
+If the above did not work and you see something like ```X : The term 'X' is not recognized as the name of a cmdlet, function, script file, or operable
+program.```, verify that the full path to the folder containing your executable was properly added. You can verify what was added by typing ```$env:Path``` into Powershell. Your app directory
+should be one of the last in the list of directories printed.
+:::
 
   </TabItem>
 </Tabs>
+
+That's it! You now have access to your application via the command line and are ready to integrate the new app into your automation or general workflows.
