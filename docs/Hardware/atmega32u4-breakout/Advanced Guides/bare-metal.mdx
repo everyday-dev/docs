@@ -1,8 +1,49 @@
 ---
-sidebar_position: 3
-slug: /atmega32u4_breakout/advanced-guides/flashing-bare-metal-bootloaders
+sidebar_position: 2
+slug: /atmega32u4_breakout/advanced-guides/flashing-dfu-bootloader
 ---
+# Flashing the USB DFU bootloader
+## Introduction
+If you have an atmega32u4 breakout board with the ```Arduino``` bootloader (or empty flash) and would like to use the board with the [avr-cmake-template](https://github.com/greatlakesdev/avr-cmake-template)
+and/or [dfu-programmer](https://github.com/dfu-programmer/dfu-programmer) to flash your applications using just a USB cable, we will need to do a couple different things.
+To begin you will need to gather the necessary tools outlined in the Prerequisite section.
 
-# Flashing the bare-metal bootloaders
-Utilize the USB-DFU firmware but add an extra bit of intelligence that first checks for an
-existing valid image at the start of Flash and if none can be found jump to the USB-DFU application.
+## Prerequisites
+You will need the following tools to write the USB DFU bootloader
+- [avrdude](https://github.com/avrdudes/avrdude)
+- AVR ISP programmer (1x of the following)
+    - [AVRISP MKII programmer](https://www.amazon.com/Programmer-USB-AVRISP-XPII-Compatible/dp/B00KM6ZA9I/ref=sr_1_4?crid=2E8DSYQHJD8S8&keywords=avrisp+mkii&qid=1672774084&s=electronics&sprefix=avrisp+mkii%2Celectronics%2C78&sr=1-4)
+    - [Atmel ICE](https://www.microchip.com/en-us/development-tool/ATATMEL-ICE)
+    - Arduino running the ```Arduino ISP``` example sketch
+
+:::warning
+If you use an Arduino as an ISP programmer, make sure it is an Arduino with 3.3V logic levels. An Arduino Uno, for example, will not work as it runs a 5V logic level and can cause
+damage to the atmega32u4 pins.
+:::
+
+## Writing the fuses
+When using the DFU bootloader we recommend setting the fuses to immediately boot the user application at address ```0x0000``` and to enter the DFU bootloader you initiate
+the boot reset sequence using the ```nRST``` and ```HWB``` pins. In order to apply this methodology we need to set two fuses - the ```BOOTRST``` and the ```HWBE```
+fuses. We need to set the ```BOOTRST``` fuse to be unprogammed (```1b```) which causes the MCU to start executing at address ```0x0000```. The ```HWBE``` fuse needs to be
+programmed (```0b```) which allows us to use the ```E2 / HWB``` GPIO to conditionally execute starting at the bootloader address (default address of ```0x3800```).
+
+The remaining fuses such as clock speed, brown-out detection level, etc can be set as the application needs. We recommend using the [AVR Fuse Calculator](https://www.engbedded.com/fusecalc/)
+to configure your fuses with an easy to use GUI.
+
+To write the fuses you need to connect the 6pin ISP header to your programmer and then execute the following via CLI (The below uses the Atmel ICE programmer). Remember
+to replace the low, high and extended fuse values with your needed fuse values.
+```console
+avrdude -p atmega32u4 -c atmelice_isp -U lfuse:w:0xde:m -U hfuse:w:0xd8:m -U efuse:w:0xcb:m
+```
+
+## Flashing the USB-DFU bootloader
+To write the USB-DFU bootloader we need to retrieve the ```.hex``` from [this Github repository](https://github.com/greatlakesdev/megaAVR_USB_DFU_firmware). The ```.hex```
+image is also available on Microchips site, but we've stored it in a Github repository just in case Microchips site is down or the image is removed in the future. Once cloned
+we can flash the bootloader image.
+```console
+avrdude -p atmega32u4 -c atmelice_isp -U flash:w:ATMega32U4-usbdevice_dfu-1_0_0.hex:h
+```
+
+:::tip Next steps
+With the bootloader flashed, we're ready to upload an application via USB. We have a seperate guide for initiating and [utilizing the DFU bootloader here](utilizing-dfu-bootloader)
+:::
