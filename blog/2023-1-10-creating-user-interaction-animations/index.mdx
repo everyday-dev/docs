@@ -28,7 +28,7 @@ Once checked, press ```Export``` at the bottom.
 
 ![KiCAD Export Step settings showing the Substitute similarly named models being checked](./3d_export_settings.png)
 
-### FreeCAD Import
+### FreeCAD import & model recoloring
 With the 3D .STEP file exported we are ready to import it into the FOSS MCAD software, FreeCAD. Once imported we can recolor the 3d bodies to a white, giving us a clean and simple depiction of
 the PCB. With FreeCAD open, navigate to ```File -> New``` to open a blank document.
 
@@ -47,8 +47,8 @@ to select the first item in the list - there should be no number after the solid
 
 ![Image showing how to set the body color of an imported CAD file solid body](./freecad_setcolors.png)
 
-In the ```Display properies``` pane that appears we want to keep the viewing mode as ```Flat Lines``` to give us a "simple" view of the PCB. Before editing the ```Shape color``` press <kbd>SHIFT + B</kbd> to enable the group select tool. Drag and
-select the entire PCB model. Now when you update the ```Shape Color``` option, the entire PCB and components will update.
+In the ```Display properies``` pane that appears we want to keep the viewing mode as ```Flat Lines``` to give us a "simple" view of the PCB. Before editing the ```Shape color``` press
+<kbd>SHIFT + B</kbd> to enable the group select tool. Drag and select the entire PCB model. Now when you update the ```Shape Color``` option, the entire PCB and components will update.
 :::note
 When setting the shape color to be white it will still appear to be Gray in isometric views. Select an orthographic view to see it as white (e.g. Top, Bottom, Left, Right)
 :::
@@ -68,16 +68,17 @@ to ```Tools -> Save picture...```
 With our picture of a simplified PCB we are ready to create our gif frames.
 
 ### Creating frames in Inkscape
-We can now go about making the individual frames for our animation. To begin, import our picture we just captured from FreeCAD by pressing <kbd>CTRL + I</kbd>. Select your desired import
-properties and press ```OK```. We need an individual photo for each frame and the first frame will likely be a photo of the board with no instruction. To begin the export process and setting
-the final frame/animation size press <kbd>SHIFT + CTRL + E</kbd>. Here you can adjust your frame size to be standard, custom or fit to your image. Once you have the frame set as you'd like export
-the PNG to a folder to hold all of our frames and name the file ```1```.
+We can now go about making the individual frames for our animation. To do so we are going to use the FOSS Vector Graphics software - Inkscape. To begin, we need to import our picture we just captured
+from FreeCAD by pressing <kbd>CTRL + I</kbd> once Inkscape is open. Select your desired import properties and press ```OK```. We need an individual photo for each frame and the first frame will likely be a photo of the board
+with no instruction. To begin the export process and setting the final frame/animation size press <kbd>SHIFT + CTRL + E</kbd>. Here you can adjust your frame size to be standard, custom or fit to your
+image. Once you have the frame set as you'd like, export the PNG to a folder which will hold all of our frames. Name the first frame ```1``` - as we create each frame, we will continue to save them with a number
+for a name, incrementing for each frame we create.
 
 ![Image showing how to set the export image size and file name](./inkscape_export.png)
 
-The next steps are going to be specific to your animation. In our example, we want to indicate a sequence of button presses. To do so, we are going to import another image of a finger pointing
+The next steps are going to be specific to your animation. In our example, we want to indicate a sequence of button presses. To do so we are going to import another image of a finger pointing
 to the button to be pressed. In the example, we want the bottom button to be pressed and held - so we will first create a frame showing the button being pressed. Once we have the finger placed
-where we'd like we will export the image again and name the file ```2```. By now you can probably tell that we will be naming each frame an incremental and ascending number.
+where we'd like we will export the image again and name the file ```2``` (Remember, each frame is named a number, incrementing by one from the previous frame number).
 
 ![Image showing how to create subsequent frames by adding and new images overtop of the first frame](./inkscape_finger.png)
 
@@ -85,7 +86,7 @@ Rinse and repeat the step of adding fingers, lights, etc as needed - exporting e
 with a folder full of ```.png``` images numbered ```1``` through ```n```.
 
 ### Creating the final .gif animation
-We are finally ready combine our frames and create our user interaction animation!
+We are finally ready for the easiest part of our process - combining our frames to create our user interaction animation!
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
