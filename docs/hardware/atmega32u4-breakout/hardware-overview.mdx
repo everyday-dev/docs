@@ -8,14 +8,21 @@ keywords: [atmega32u4, breadboard, prototyping, oshw, hardware, kicad, debugging
 description: Hardware Overview and pinout of the atmega32u4 breakout board by great lakes dev
 # image: tbd
 ---
-:::warning
-All GPIO and serial peripherals (except USB) operate at 3.3V. Level translators should be used when interfacing with other systems that may run at 1.8V or 5V
-:::
 
 The ATmega32u4 microcontroller has all the serial peripherals you would expect from a modern MCU, a full-speed USB connection and a generous number of ADC inputs. The image below shows all of the GPIO port and
 pin numbers of the MCU, as well as the commonly used "Alternate functions" of each pin. The following sections below will describe in detail each category of pin funtions.
 
 ![pinout description of all the alt functions of the atmega32u4 breakout board](atmega32u4_breakout_pinout.png)
+
+:::info
+If you need to debug the board, you want to build your own or just understand the design better - you can find the design files, latest release gerbers, BOM,
+schematic and 3d STEP model <a href="https://www.github.com/greatlakesdev/atmega32u4_breakout" target="_blank">on Github</a>.
+:::
+
+:::warning
+All GPIO and serial peripherals (except USB) operate at 3.3V. Level translators should be used when interfacing with other systems that may run at 1.8V or 5V
+:::
+
 
 ### Power & GND
 The ATmega32u4 breakout board is capable of being powered in two ways:
