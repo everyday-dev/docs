@@ -86,16 +86,16 @@ const config = {
             title: 'Learn',
             items: [
               {
-                label: 'DEV101 ⚡',
+                label: '⚡ DEV101',
                 to: '/blog/tags/dev-101',
               },
               {
-                label: 'Hardware Docs',
-                to: '/docs/intro',
+                label: '🔩 Hardware Docs',
+                to: '/docs/hardware',
               },
               {
-                label: 'Template Docs',
-                to: '/docs/intro',
+                label: '🏗️ Templates Docs',
+                to: '/docs/templates',
               },
             ],
           },
