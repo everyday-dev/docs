@@ -33,8 +33,9 @@ breadboard-io provides the user access to the following via a single 2.54" pitch
 
 To use breadboard-io you must at a minimum provide a voltage power rail to the ```VCC``` pin, a ground connection at the ```GND``` pin and connect at least a single signal wire (```LEDx``` or ```SWx```).
 
-:::caution
-The SWx output signals have a 1k ohm padding resistor to protect from any shortages. The SWx signals are fine for direct connection to a microcontroller or other high impedence circuits, but should not be used to directly drive any larger loads like a DC motor. Instead consider using a FET to control your load and then enable the FET gate using the SWx output.
+:::note
+The SWx output signals have a 10k ohm padding resistor to protect from any shortages between the VCC rail and GND. The SWx signals are fine for direct connection to a microcontroller or other high impedence circuits
+but should not be used to directly drive any larger loads like a DC motor as you'll have trouble getting the current needed. Instead consider using a FET to control your load and then enable the FET gate using the SWx output.
 :::
 
 ![photo of the breadboard-io pcb wiring guide](io.png)
