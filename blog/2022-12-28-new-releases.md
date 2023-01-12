@@ -2,9 +2,14 @@
 title: New releases 🎉 (kicad & avr templates, breakout boards)
 authors: stephen
 tags: [new-release]
+
+# Necessary for good meta-data / SEO
+keywords: [new release, templates, kicad, avr, atmel, microchip, breadboard, prototyping]
+description: New product release announcement for the breadboard-io, atmega32u4_breakout, kicad project template and the avr-cmake project template
+# image: tbd
 ---
 
-I'm happy to finally be sharing several new projects with others! The templates will always be "under development" as I continue to add new suggestions and tweaks that make them more useful but the PCBs are pretty much "produciton" intent as most of the bugs have already been worked out.
+I'm happy to finally be sharing several new projects with others! The templates will always be "under development" as I continue to add new suggestions and tweaks that make them more useful but the PCBs are pretty much "produciton" intent as most of the bugs have already been worked out.<!--truncate-->
 - **breadboard-io [[docs]](https://www.greatlakesdev.io/docs/breadboard-io/)[[github]](https://github.com/greatlakesdev/breadboard-io)**: 🍞 A small footprint design used to easily add a few push-buttons and LEDs to a breadboard
 - **atmega32u4_breakout [[docs]](https://www.greatlakesdev.io/docs/atmega32u4-breakout/introduction)[[github]](https://github.com/greatlakesdev/atmega32u4_breakout)**: Breakout and Development board for the ATmega32u4-MU MCU from Atmel. Even though its an 8-bit AVR part, its still plenty useful for most projects and most importantly - the MCU is avilable to purchase 🫠
 - **kicad-2-layer-template [[github]](https://github.com/greatlakesdev/kicad-2-layer-template)**: ♼ 2-layer KiCAD project template with DRC rules set to meet PCBWays "Standard" tiers max capabilities

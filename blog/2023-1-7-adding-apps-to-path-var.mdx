@@ -2,12 +2,17 @@
 title: DEV101 ⚡ Adding applications to the PATH env variable
 authors: stephen
 tags: [dev101]
+
+# Necessary for good meta-data / SEO
+keywords: [dev101, guides, PATH, environment variables, how to, linux, windows, powershell]
+description: Guide on how to add applications to the path environment variable so you can access them from the command line
+# image: tbd
 ---
 It often occurs in a developers day that they need to install a new application and be able to access it from the command line. In most cases a nicely packaged
 installer (```.msi```, ```.exe``` or ```.AppImage```) is there to handle this process for you along with setting up directories and default config, all with a few clicks through a GUI.
 Same goes for installing packages via a package manger like ```apt``` for Ubuntu or ```choco``` for Windows. A single command and the process is done.
 
-Although this is incredibly convenient, not all applications ship with an installer. You may encounter application directories that have been "zipped" or "tar-balled" and once
+Although this is incredibly convenient, not all applications ship with an installer.<!--truncate--> You may encounter application directories that have been "zipped" or "tar-balled" and once
 extracted gives you access to the application and dependencies when executed from its current home. When you receive a compressed folder like this it might just be
 the needed app inside or there may be a folder within called ```bin``` which contains your app. The easiest way to make the app accessible from the CLI is to add
 the folder path containing it to the ```PATH``` environment variable. By adding the app directory to the ```PATH``` env. variable, we build a list of directories that are searched any time an

@@ -40,9 +40,13 @@ const config = {
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/greatlakesdev/docs/tree/main/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
         blog: {
-          showReadingTime: true
+          blogTitle: "great lakes dev blog posts and guides",
+          blogDescription: "Guides, walkthroughs and general updates for the great lakes dev org can all be found here!",
+          showReadingTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -79,31 +83,22 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'docs',
+            title: 'Learn',
             items: [
               {
-                label: 'Introduction',
+                label: 'DEV101 ⚡',
+                to: '/blog/tags/dev-101',
+              },
+              {
+                label: 'Hardware Docs',
+                to: '/docs/intro',
+              },
+              {
+                label: 'Template Docs',
                 to: '/docs/intro',
               },
             ],
           },
-        //   {
-        //     title: 'Community',
-        //     items: [
-        //       {
-        //         label: 'Stack Overflow',
-        //         href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-        //       },
-        //       {
-        //         label: 'Discord',
-        //         href: 'https://discordapp.com/invite/docusaurus',
-        //       },
-        //       {
-        //         label: 'Twitter',
-        //         href: 'https://twitter.com/docusaurus',
-        //       },
-        //     ],
-        //   },
           {
             title: 'More',
             items: [
@@ -115,6 +110,10 @@ const config = {
                 label: 'GitHub',
                 href: 'https://github.com/greatlakesdev',
               },
+              {
+                label: 'Mastadon',
+                href: 'https://fosstodon.org/@stephendpmurphy',
+              },
             ],
           },
         ],
@@ -123,6 +122,10 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      colorMode: {
+        defaultMode: 'light',
+        disableSwitch: true
       },
     }),
 };

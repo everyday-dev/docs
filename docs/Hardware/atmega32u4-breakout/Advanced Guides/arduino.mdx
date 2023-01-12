@@ -1,10 +1,13 @@
 ---
+title: Flashing the Arduino Bootloader
 sidebar_position: 1
 slug: /atmega32u4_breakout/advanced-guides/flashing-arduino-bootloader
+
+# Necessary for good meta-data / SEO
+keywords: [atmega32u4, breadboard, prototyping, oshw, hardware, kicad, debugging, avr, arduino]
+description: Guide on how to flash the Arduino bootloader onto the atmega32u4 breakout board by great lakes dev
+# image: tbd
 ---
-
-# Flashing the Arduino Bootloader
-
 ## Introduction
 If you have an atmega32u4 breakout board with the ```bare-metal``` bootloaders (or empty flash) and would like to use the board with the Arduino IDE, we will need to do
 a couple different things. To begin you will need to gather the necessary tools outlined in the Prerequisite section
@@ -41,7 +44,7 @@ avrdude -p atmega32u4 -c atmelice_isp -U lfuse:w:0xde:m -U hfuse:w:0xd8:m -U efu
 
 With the fuses set, we are now ready to open the Arduino IDE and flash the bootloader.
 
-## Flashing the bootloader
+## Flashing the Arduino bootloader
 To write the bootloader we need to open the Arduino IDE set the correct board. We want to select the ```Arduino Micro``` as this is another Arduino based board using the same
 atmega32u4 MCU:
 ```Tools -> Board -> Arduino AVR Boards -> Arduino Micro```. Now set the programmer to the correct ISP programmer you are using: ```Tools -> Programmer -> Atmel-ICE (AVR)```.
