@@ -8,17 +8,16 @@ keywords: [atmega32u4, breadboard, prototyping, oshw, hardware, kicad, debugging
 description: Getting started guide for the atmega32u4 breakout board by great lakes dev
 # image: tbd
 ---
-The default setup for the atmega32u4 breakout board is ready to use in ```bare-metal``` applications and uses either the USB-DFU bootloader or an ISP programmer like the
-Atmel-ICE or AVRISP-mkII programmers.
+The default setup for the atmega32u4 breakout board is ready to use in ```bare-metal``` projects and we highly recommend you use our [avr-cmake-template](https://github.com/greatlakesdev/avr-cmake-template)
+as it handles a lot of the project setup and tooling for you. You can find the docs that walk through the template and explain how to customize and use it [here](/docs/avr-cmake-template/).
+The default configuration is setup for the atmega32u4 so no changes are necessary to get started other than adding your source code. The template provides two methods for reflashing the board -
+either using ```avrdude``` and an ISP programmer or you can use the USB DFU bootloader to reflash over a single USB cable. For more information on
+how to get the board into the USB bootloader and ready to accept new images - checkout [this guide](/advanced-guides/utilizing-dfu-bootloader)
+
 :::note
 It is an option to purchase the atmega32u4 breakout board pre-loaded with the Arduino Micro bootloader so you can get up and running right away in the
 Arduino IDE!
 :::
-
-In ```bare-metal``` applications we highly recommend you use our [avr-cmake-template](https://github.com/greatlakesdev/avr-cmake-template) as
-it handles a lot of the project setup and tooling for you. You can find the docs that walk through the template and explain how to customize it [here](/docs/avr-cmake-template/).
-However, the default configuration is setup for the atmega32u4 so no changes are necessary to get started.
-
 :::tip Next steps
-If you're looking for more information on how to reflash the ```USB DFU``` or ```Arduino``` bootloaders then check out the [Advanced Guides](./advanced-guides) for more information.
+If you're looking for more information on how to switch between the ```USB DFU``` and ```Arduino``` bootloaders then check out the [Advanced Guides](./advanced-guides).
 :::
