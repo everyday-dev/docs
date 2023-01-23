@@ -63,7 +63,10 @@ const sidebars = {
             type: 'doc',
             id: 'templates/index',
           },
-        items: ['templates/avr-cmake-template/avr-cmake-template'],
+        items: [
+            'templates/avr-cmake-template/avr-cmake-template',
+            'templates/kicad-project-template/kicad-project-template'
+        ],
     },
   ],
 };
