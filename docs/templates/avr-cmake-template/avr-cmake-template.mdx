@@ -46,12 +46,8 @@ These instructions must be run in a ``cmd.exe`` command prompt. The
 required commands differ on PowerShell.
 :::
 
-- Install the ```choco``` package manager for Windows if you haven't already
+- [Install the ```choco``` package manager](https://docs.chocolatey.org/en-us/choco/setup) for Windows
 - Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
-- Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
-```console
-    choco feature enable -n allowGlobalConfirmation
-```
 - Now install the needed dependencies
 ``` console
     choco install make
@@ -95,12 +91,7 @@ python -m pip install gcovr
   required commands differ on PowerShell.
 :::
 
-- Install the ```choco``` package manager for Windows if you haven't already
 - Open a ``cmd.exe`` window as **Administrator**. To do so, press the Windows key, type "cmd.exe", right-click the result, and choose **Run as Administrator**.
-- Disable ```choco``` global confirmation to avoid having to confirm the installation of individual programs:
-```console
-choco feature enable -n allowGlobalConfirmation
-```
 - Install the Python and Ruby choco packages
 ``` console
 choco install python ruby
@@ -164,7 +155,7 @@ a third-party such a an SDK from a manufacturer or a useful helper library from 
 Using the Ceedling tool to add new source files will not only add a new source file to the ```src/``` folder but it will also add a new unit-test source file
 within the ```test/``` folder. To add a new source and unit-test file execute the following (Don't include a .c or .h in the filename)
 
-:::caution
+:::caution Linux Users
 The ```ceedling``` gem does not work well when used with the ```zsh``` interpreter. Instead try executing ```bash``` before
 adding new source via ceedling.
 :::
@@ -187,7 +178,7 @@ After a fresh clone of your project the ```setup``` script can be used to initia
   <TabItem value="windows" label="Windows">
 
 :::note
-If you have never run powershell scripts on your machine before, you will likely need to allow remote signed scripts. To do so open Poweshell as an administrator and execute the following. Once complete the ```setup``` script should be run from Powershell
+If you have never ran powershell scripts on your machine before, you will likely need to allow remote signed scripts. To do so open Poweshell as an administrator and execute the following. Once complete the ```setup``` script should be run from Powershell
 ```console
 set-executionpolicy remotesigned
 ```
@@ -201,7 +192,7 @@ setup.ps1
 </Tabs>
 
 ## Compiling, Flashing & Testing
-Once a ```build/``` directory has been initialized the following ```make``` commands can be ran from the ```build/``` folder
+Once a ```build/``` directory has been initialized the following ```make``` commands can be run from the ```build/``` folder
 
 #### Compiling
 To clean the build directory and compile a fresh build:
@@ -231,8 +222,13 @@ make flash
 
   <TabItem value="dfu" label="USB DFU">
 
-:::note
-These commands require the USB-DFU bootloader to be present and enumerated on your microcontroller.
+:::caution Heads up
+USB DFU commands require your board to be running a DFU bootloader.
+
+**atmega32u4_breakout users:**
+- Read [this Advanced guide](/docs/atmega32u4_breakout/advanced-guides/utilizing-dfu-bootloader) to learn how to enter the USB DFU bootloader so it can receive commands
+over USB
+- If your board is empty or flashed with the Arduino bootloader - check out [this Advanced guide](/docs/atmega32u4_breakout/advanced-guides/flashing-dfu-bootloader) on flashing the DFU bootloader.
 :::
 To erase the connected target:
 ```console
@@ -249,7 +245,7 @@ make dfu_flash
 
 #### Fuses
 :::note
-Reading and writing fuses is only supported when connected to the target via avrdude & programmer
+Reading and writing fuses is only supported when connected to the target via an ISP programmer
 :::
 To write the fuses:
 ```console
@@ -282,6 +278,7 @@ with a tag matching the version found in ```src/version.h``` and create a Github
 unit-test results attached to it. This integration is triggered on every commit to the ```main``` branch.
 
 :::tip Next steps
-With your project set up and ready to go, checkout this Advanced guide on [flashing the DFU bootloader](/docs/atmega32u4_breakout/advanced-guides/flashing-dfu-bootloader) to make it quick and
-easy to flash your applications using a single USB cable.
+With your project set up you're ready to start developing! If you have a fresh/empty board or one with the Arduino bootloader loaded
+checkout this Advanced guide on [flashing the DFU bootloader](/docs/atmega32u4_breakout/advanced-guides/flashing-dfu-bootloader) - the DFU
+bootloader makes it quick and easy to flash your ```bare-metal``` applications using a single USB cable and the DFU ```make``` commands.
 :::
