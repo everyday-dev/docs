@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'great lakes dev',
   titleDelimiter: '⚡',
-  tagline: 'FOSS & OSHW',
+  tagline: 'Free & Open Source Hardware, Firmware, and Software',
   url: 'https://greatlakesdev.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
@@ -101,6 +101,19 @@ const config = {
             ],
           },
           {
+            title: 'Say hello',
+            items: [
+                {
+                    label: '🦣 Mastodon',
+                    href: 'https://fosstodon.org/@stephendpmurphy',
+                },
+                {
+                    label: '✉️ hello@greatlakesdev.io',
+                    href: '#',
+                },
+            ],
+          },
+          {
             title: 'More',
             items: [
               {
@@ -110,10 +123,6 @@ const config = {
               {
                 label: 'GitHub',
                 href: 'https://github.com/greatlakesdev',
-              },
-              {
-                label: 'Mastadon',
-                href: 'https://fosstodon.org/@stephendpmurphy',
               },
             ],
           },

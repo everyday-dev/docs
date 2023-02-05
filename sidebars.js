@@ -16,7 +16,7 @@ const sidebars = {
     sidebar: [
     {
         type: 'doc',
-        label: '👋 Docs Introduction',
+        label: '👋 Introduction',
         id: 'intro'
     },
     {
