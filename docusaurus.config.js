@@ -6,13 +6,13 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'everyday dev',
+  title: 'everyday⚡dev',
 //   titleDelimiter: '⚡',
   tagline: 'Free & Open Source Hardware, Firmware, and Software projects',
-  url: 'https://opensource.everydaydev.io',
+  url: 'https://os.everydaydev.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  onBrokenMarkdownLinks: 'throw',
   favicon: 'img/everydaydev.favicon',
 
   // GitHub pages deployment config.
@@ -74,10 +74,17 @@ const config = {
             label: 'docs',
           },
           {to: '/blog', label: 'blog', position: 'left'},
+        //   {
+        //     href: 'https://everydaydev.io',
+        //     // label: 'Hire Us ⚡',
+        //     position: 'right',
+        //     className: 'header-hireus-link',
+        //   },
           {
             href: 'https://github.com/everyday-dev',
-            label: 'GitHub',
+            // label: 'GitHub',
             position: 'right',
+            className: 'header-github-link',
           },
         ],
       },
