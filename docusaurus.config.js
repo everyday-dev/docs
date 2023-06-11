@@ -6,19 +6,19 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'great lakes dev',
-  titleDelimiter: '⚡',
-  tagline: 'Free & Open Source Hardware, Firmware, and Software',
-  url: 'https://greatlakesdev.io',
+  title: 'everyday dev',
+//   titleDelimiter: '⚡',
+  tagline: 'Free & Open Source Hardware, Firmware, and Software projects',
+  url: 'https://opensource.everydaydev.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-  favicon: 'img/gld-logo.favicon',
+  favicon: 'img/everydaydev.favicon',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'greatlakesdev', // Usually your GitHub org/user name.
-  projectName: 'docs', // Usually your repo name.
+  organizationName: 'everyday-dev', // Usually your GitHub org/user name.
+  projectName: 'opensource', // Usually your repo name.
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
@@ -40,13 +40,13 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/greatlakesdev/docs/tree/main/',
+            'https://github.com/everyday-dev/opensource/tree/main/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },
         blog: {
-          blogTitle: "great lakes dev blog posts and guides",
-          blogDescription: "Guides, walkthroughs and general updates for the great lakes dev org can all be found here!",
+          blogTitle: "blog posts and guides",
+          blogDescription: "Guides, walkthroughs and general updates for the everyday dev org can all be found here!",
           showReadingTime: true,
         },
         theme: {
@@ -60,10 +60,11 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'great lakes dev',
+        // title: 'everyday⚡dev',
         logo: {
-          alt: 'great lakes dev logo',
-          src: 'img/gld-logo.svg',
+          alt: 'everyday dev logo',
+          src: 'img/everydaydev_black.svg',
+          width: 150,
         },
         items: [
           {
@@ -74,14 +75,14 @@ const config = {
           },
           {to: '/blog', label: 'blog', position: 'left'},
           {
-            href: 'https://github.com/greatlakesdev',
+            href: 'https://github.com/everyday-dev',
             label: 'GitHub',
             position: 'right',
           },
         ],
       },
       footer: {
-        style: 'dark',
+        style: 'light',
         links: [
           {
             title: 'Learn',
@@ -108,7 +109,7 @@ const config = {
                     href: 'https://fosstodon.org/@stephendpmurphy',
                 },
                 {
-                    label: '✉️ hello@greatlakesdev.io',
+                    label: '✉️ hello@everydaydev.io',
                     href: '#',
                 },
             ],
@@ -122,12 +123,12 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/greatlakesdev',
+                href: 'https://github.com/everyday-dev',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} great lakes dev - Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} everyday dev - Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

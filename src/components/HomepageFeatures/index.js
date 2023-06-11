@@ -8,8 +8,8 @@ const FeatureList = [
         Svg: require('@site/static/img/undraw_open_source.svg').default,
         description: (
           <>
-            We believe in open-source and releasing ALL design files with a permissive
-            open source license, giving the user full ownership of a project.
+            We release all our project design files with a permissive
+            open source license, giving the user full ownership.
           </>
         ),
     },
@@ -29,7 +29,6 @@ const FeatureList = [
         Svg: require('@site/static/img/undraw_sharing_knowledge.svg').default,
         description: (
           <>
-            We believe in sharing knowledge with others, not monopolizing information.
             Along with our designs, you can find in-depth documentation and guides explaining how to build and use our projects.
           </>
         ),
