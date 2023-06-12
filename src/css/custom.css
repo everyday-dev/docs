@@ -20,6 +20,10 @@
     color: #000;
 }
 
+.hero .hero__image {
+    width: 275px;
+}
+
 .footer__link-item:hover {
     color: #FFD700;
 }
