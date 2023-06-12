@@ -28,7 +28,7 @@ damage to the atmega32u4 pins.
 
 ## Writing the fuses
 When using the DFU bootloader we recommend setting the fuses to immediately boot the user application at address ```0x0000``` and to enter the DFU bootloader you initiate
-the boot reset sequence using the ```nRST``` and ```HWB``` pins. In order to apply this methodology we need to set two fuses - the ```BOOTRST``` and the ```HWBE```
+the boot reset sequence using the ```nRST``` and ```HWB``` pins. To apply this methodology we need to set two fuses - the ```BOOTRST``` and the ```HWBE```
 fuses. We need to set the ```BOOTRST``` fuse to be unprogammed (```1b```) which causes the MCU to start executing at address ```0x0000```. The ```HWBE``` fuse needs to be
 programmed (```0b```) which allows us to use the ```E2 / HWB``` GPIO to conditionally execute starting at the bootloader address (default address of ```0x3800```).
 

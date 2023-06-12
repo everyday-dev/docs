@@ -60,7 +60,13 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'everyday⚡dev',
+        // title: 'everyday⚡dev',
+        logo: {
+            alt: 'everyday dev logo',
+            src: 'img/everydaydev_black_txtOnly.svg',
+            width: 130,
+            className: 'header-logo'
+        },
         items: [
           {
             type: 'doc',

@@ -12,13 +12,16 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <img className="hero__image" src='img/everydaydev_black_large.png'/>
+        <img className="hero__image" src='img/everydaydev_opensource.svg'/>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__desc">We benefit from open source projects that enable us to do the things we love and
+        want to give back by providing resources & tools that help others create the things they love.
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs">
-            Head to the docs to start learning 📚
+            Start learning 📚
           </Link>
         </div>
       </div>

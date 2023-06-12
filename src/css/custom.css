@@ -20,8 +20,14 @@
     color: #000;
 }
 
+.hero__desc {
+    position: relative;
+    width: 80%;
+    left: 10%;
+}
+
 .hero .hero__image {
-    width: 275px;
+    width: 240px;
 }
 
 .footer__link-item:hover {
@@ -46,4 +52,15 @@
       /* no-repeat; */
 }
 
+.header-logo {
+    position: relative;
+    top: 0.08rem;
+}
 
+.everydaydev_inline {
+    width:130px;
+	vertical-align: middle;
+  	display: inline-block;
+    padding-left: 2px;
+    padding-right: 2px;
+}
