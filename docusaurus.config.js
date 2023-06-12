@@ -126,11 +126,11 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
+                label: '📙 Blog',
                 to: '/blog',
               },
               {
-                label: 'GitHub',
+                label: '💾 Github',
                 href: 'https://github.com/everyday-dev',
               },
             ],
