@@ -12,7 +12,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <img className="hero__image" src='img/everydaydev_opensource.svg'/>
+        <img className="hero__image" src='img/everydaydev_opensource_black.svg'/>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <p className="hero__desc">We benefit from open source projects that enable us to do the things we love and
         want to give back by providing resources & tools that help others create the things they love.

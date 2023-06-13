@@ -63,7 +63,7 @@ const config = {
         // title: 'everyday⚡dev',
         logo: {
             alt: 'everyday dev logo',
-            src: 'img/everydaydev_black_txtOnly.svg',
+            src: 'img/everydaydev_black.svg',
             width: 130,
             className: 'header-logo'
         },
