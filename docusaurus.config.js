@@ -59,7 +59,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/everydaydev_black_on_white.png',
+      image: 'img/everydaydev_black_on_white_1200x627.png',
       navbar: {
         // title: 'everyday⚡dev',
         logo: {
