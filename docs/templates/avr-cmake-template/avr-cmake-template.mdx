@@ -206,7 +206,7 @@ make -j8
 ```
 #### Flashing
 <Tabs groupId="prog-type">
-  <TabItem value="programmer" label="avr-dude / programmer" default>
+  <TabItem value="programmer" label="avr-dude / ISP programmer" default>
 
 To erase the connected target:
 ```console
@@ -216,6 +216,17 @@ make erase
 To flash the connected target:
 ```console
 make flash
+```
+
+#### Fuses
+To write the fuses:
+```console
+make write_fuses
+```
+
+To read the fuses:
+```console
+make read_fuses
 ```
 
   </TabItem>
@@ -245,20 +256,6 @@ You must manually reset the microcontroller after reflashing via DFU to launch t
 
   </TabItem>
 </Tabs>
-
-#### Fuses
-:::note
-Reading and writing fuses is only supported when connected to the target via an ISP programmer
-:::
-To write the fuses:
-```console
-make write_fuses
-```
-
-To read the fuses:
-```console
-make read_fuses
-```
 
 #### Testing
 To execute unit tests:

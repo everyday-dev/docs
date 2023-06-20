@@ -9,7 +9,7 @@ description: Guide on how to execute and use the USB DFU bootloader for the atme
 # image: tbd
 ---
 When using the atmega32u4 breakout board in a bare-metal setup we have two options for relfashing: ```avrdude``` and an ISP programmer or ```USB-DFU```
-with a single USB Type C cable. Using the ISP programmer can be easiest when at a bench and your actively developing your application and constantly reflashing to test. The
+with a single USB Type C cable. Using the ISP programmer can be easiest when at a bench and you're actively developing your application and constantly reflashing to test. The
 USB-DFU programmer is by far more convenient when your on the go or need to flash an updated application to a finished and installed project. A single USB to
 provide power plus data and you can flash your application.
 
@@ -27,5 +27,5 @@ A simple two-button sequence is needed to enter the USB-DFU bootloader:
 - Release the ```USR``` button
 
 Once completing the sequence outlined above and shown below, the USB DFU bootloader should enumerate on your PC. You can now use the ```make dfu_flash``` and ```make dfu_erase```
-commands in the [avr-cmake-template](/docs/avr-cmake-template) or reflash the board using [```dfu-programmer```](https://github.com/dfu-programmer/dfu-programmer) directly
+commands in the [avr-cmake-template](/docs/avr-cmake-template#flashing) or reflash the board using [```dfu-programmer```](https://github.com/dfu-programmer/dfu-programmer) directly
 ![gif animation showing the sequence to press buttons on a PCB. Press and hold RST, Press and hold USR, Release RST, Releast USR](./hwb_seq.gif)

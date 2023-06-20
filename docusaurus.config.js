@@ -13,7 +13,7 @@ const config = {
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
-  favicon: 'img/everydaydev.favicon',
+  favicon: 'img/lightning_white_33x33.png',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
@@ -77,7 +77,6 @@ const config = {
           {to: '/blog', label: 'blog', position: 'left'},
         //   {
         //     href: 'https://everydaydev.io',
-        //     // label: 'Hire Us ⚡',
         //     position: 'right',
         //     className: 'header-hireus-link',
         //   },
@@ -112,13 +111,13 @@ const config = {
           {
             title: 'Say hello',
             items: [
-                {
-                    label: '🦣 Mastodon',
-                    href: 'https://fosstodon.org/@stephendpmurphy',
-                },
+                // {
+                //     label: '🦣 Mastodon',
+                //     href: 'https://fosstodon.org/@stephendpmurphy',
+                // },
                 {
                     label: '✉️ hello@everydaydev.io',
-                    href: '#',
+                    href: 'mailto:hello@everydaydev.io?body=Say%20hello%2C%20ask%20questions%2C%20or%20send%20us%20whatever%20else%20you%20want%20to%20chat%20about!&subject=Hello%20%F0%9F%91%8B',
                 },
             ],
           },
@@ -133,6 +132,10 @@ const config = {
                 label: '💾 Github',
                 href: 'https://github.com/everyday-dev',
               },
+            //   {
+            //     label: '✨ Hire us',
+            //     href: 'https://github.com/everyday-dev',
+            //   },
             ],
           },
         ],
