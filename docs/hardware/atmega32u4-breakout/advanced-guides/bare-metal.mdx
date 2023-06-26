@@ -35,7 +35,7 @@ programmed (```0b```) which allows us to use the ```E2 / HWB``` GPIO to conditio
 The remaining fuses such as clock speed, brown-out detection level, etc can be set as the application needs. We recommend using the [AVR Fuse Calculator](https://www.engbedded.com/fusecalc/)
 to configure your fuses with an easy to use GUI.
 
-To write the fuses you need to connect the 6pin ISP header to your programmer and then execute the following via CLI (The below uses the Atmel ICE programmer). Remember
+The fuse settings below are the recommended values for the `atmegaXu4_breakout` board. To write the fuses you need to connect the 6pin ISP header to your programmer and then execute the following via CLI (The below uses the Atmel ICE programmer). Remember
 to replace the low, high and extended fuse values with your needed fuse values.
 ```console
 avrdude -p atmega32u4 -c atmelice_isp -U lfuse:w:0xce:m -U hfuse:w:0x99:m -U efuse:w:0xc3:m

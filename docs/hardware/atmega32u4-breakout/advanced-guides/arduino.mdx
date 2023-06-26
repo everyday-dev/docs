@@ -27,12 +27,6 @@ damage to the atmega32u4 pins.
 :::
 
 ## Writing the fuses
-At the time of writing this documentation, I was having issues getting the Arduino IDE to properly write the AVR fuses for me. To get around this I had to use ```avrdude```
-and an ISP programmer to first write the fuses myself before writing the bootloader with the Arduino IDE. The fuse values are as follows:
-- LFUSE: 0xDE
-- HFUSE: 0xD8
-- EFUSE: 0xCB
-
 The most notable change in these fuse values are to enable the boot reset vector fuse which causes the MCU to start looking for a bootloader in the boot section of flash where the Arduino
 bootloader will be placed. The other changes consist of setting the clock to use the EXT crystal (16MHz) and disable the ```DIV/8``` fuse giving a
 final core clock of 16MHz.
