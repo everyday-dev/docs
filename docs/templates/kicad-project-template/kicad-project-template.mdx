@@ -86,24 +86,6 @@ Lastly we need to configure the CLI tool. As of KiCAD v7 the the ```kicad-cli```
 CLI_TOOL: "kicad-cli"
 ```
 
-:::warning
-As of writing these docs, the CLI support for KiCAD has not made it to a stable release and we must use the ```nightly``` binary and install. Once KiCAD v7 has made it
-public the ```CLI_TOOL``` env variable can be updated to ```kicad-cli``` and the KiCAD install steps can be changed to install the stable release.
-```yml
-env:
-  CLI_TOOL: "kicad-cli-nightly"
-```
-```yml
-# To be updated to a stable install once kicad-cli makes it to stable release in v7
-- name: Install KiCAD
-    run: |
-    sudo add-apt-repository --yes ppa:kicad/kicad-dev-nightly
-    sudo apt update
-    sudo apt install kicad-nightly
-```
-
-:::
-
 ### Manual Release
 The default setup of the workflow is for [manually triggering of a release from the Github Web UI](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow). The configuration at the top
 of the ```.github/workflows/ci.yml``` is set to ```workflow_displatch``` to enable this feature.
@@ -126,7 +108,7 @@ on:
   # Enable workflow only when manually called
   #workflow_dispatch
   # OR
-  # Enable workflow on pushes to main and dev
+  # Enable workflow on pushes to main
   push:
-    branches: [ main, dev ]
+    branches: [ main ]
 ```
