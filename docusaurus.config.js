@@ -76,11 +76,11 @@ const config = {
             label: 'docs',
           },
           {to: '/blog', label: 'blog', position: 'left'},
-        //   {
-        //     href: 'https://everydaydev.io',
-        //     position: 'right',
-        //     className: 'header-hireus-link',
-        //   },
+          {
+            href: 'https://www.everydaydev.io',
+            position: 'right',
+            className: 'header-hireus-link',
+          },
           {
             href: 'https://github.com/everyday-dev',
             // label: 'GitHub',
@@ -133,10 +133,10 @@ const config = {
                 label: '💾 Github',
                 href: 'https://github.com/everyday-dev',
               },
-            //   {
-            //     label: '✨ Hire us',
-            //     href: 'https://github.com/everyday-dev',
-            //   },
+              {
+                label: '✨ Hire us',
+                href: 'https://www.everydaydev.io',
+              },
             ],
           },
         ],
