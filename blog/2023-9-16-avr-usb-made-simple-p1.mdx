@@ -23,6 +23,9 @@ based setup of the AVR microcontrollers makes it a great platform to learn the b
 are hidden from us. It's worth mentioning that there is a very popular library called [LUFA](https://github.com/abcminiuser/lufa) that implements a USB stack for
 AVR microcontrollers. It's a great library and easy to use but it's also a bit of a black box.
 
+You can [find the code to follow along on our Github.](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_basic_enum) Just be sure you are looking at the
+`control_basic_enum` tag. The repository is based on our [avr-cmake-template](docs/avr-cmake-template) and built using the `avr-gcc` toolchain.
+
 ## USB basics
 A great place to learn the basics of USB communication is this [USB Made Simple](https://www.usbmadesimple.co.uk/index.html) site. It starts out giving a
 high-level overview of the USB standard and then goes into the details of the protocol. I highly recommend reading through the site at least up to Part 4 to better
@@ -35,11 +38,8 @@ interfaces. Every USB device must at a minimum implement`Control` transfer handl
 specific communication.
 
 ## AVR USB
-Our objective in this post is not to implement any host driver functionality but to get our device to enumerate with the host. You can [find the code to follow along
-on our Github.](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_basic_enum) Just be sure you are looking at the `control_basic_enum` tag. The repository is
-based on our [avr-cmake-template](docs/avr-cmake-template) and built using the `avr-gcc` toolchain. When we are all done the kernel log output on a Linux machine should look
-like this when the device is plugged in:
-
+Our objective in this post is not to implement any host driver functionality but to get our device to enumerate with the host. When we are all done the kernel log output on a
+Linux machine should look like this when the device is plugged in:
 ```bash
 [986045.250483] usb 3-8.2: new full-speed USB device number 23 using xhci_hcd
 [986045.401173] usb 3-8.2: New USB device found, idVendor=dead, idProduct=beef, bcdDevice= 0.01
