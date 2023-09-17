@@ -32,9 +32,9 @@ high-level overview of the USB standard and then goes into the details of the pr
 understand the concepts I'll be talking about in this post.
 
 ## USB Enumeration
-The bare minimum functinaliaty of a USB device is to enumerate with the host. This is the process of the host collecting information about the device and it's capabilities.
+The bare minimum functionality of a USB device is to enumerate with the host which is the process of the host collecting information about the device and it's capabilities.
 The host does so by initiating `Control` transfers to the USB endpoint `0`, querying information such as the devices product name, manufacturer, serial number and supported
-interfaces. Every USB device must at a minimum implement`Control` transfer handling. The host will then use this information to load the appropriate drivers to continue device
+interfaces. The host will then use this information to load the appropriate drivers to continue device
 specific communication.
 
 ## AVR USB
@@ -96,10 +96,9 @@ void usb_init(void) {
 ```
 
 ### USB Interrupts
-A crucial part of USB communication is the handling of interrupts. All communication will be initiated through these
-interrupts. The AVR USB peripheral has two categories of interrupts. The `GEN` interrupt vector is where information such as bus resets and VBUS changes are
-handled. The `COM` interrupt vector is where all USB communication is handled. This includes `Control`, `Bulk`, `Interrupt`, and `Isochronous` transfers.
-Our basic ISRs look like this:
+A crucial part of USB communication is the handling of interrupts as all communication will be initiated through them. The AVR USB peripheral has two categories of interrupts: The `GEN` interrupt vector is where information such as bus resets and VBUS changes are
+handled and the `COM` interrupt vector is where all USB communication is handled. This includes `Control`, `Bulk`, `Interrupt`, and `Isochronous` transfers.
+Our basic ISRs to achieve USB enumeration look like this:
 ```c
 ISR(USB_GEN_vect) {
     // Check if a USB reset sequence was received from the host
@@ -134,15 +133,14 @@ ISR(USB_COM_vect) {
 ```
 
 As you can see we are using the `GEN` vector to detect the `End Of Reset` interrupt. This occurs when the host resets a device and is wanting
-the device to begin the enumeration process. Note that this is where we initialize our endpoints. We'll come back to that later. Inside the `COM` vector
+the device to begin the enumeration process. When this interrupt fires we then initialize our endpoints - We'll come back to that later. Inside the `COM` vector
 you can see we determine which Endpoint caused a communications interrupt (Control transfers always use Endpoint 0) and then we act on what type of communication
 interrupt was triggered. In our bare example we are only looking for `Setup` packets. These are the packets that the host sends to the device to query information.
 We will dive into our `Setup` packet handler shortly.
 
 ### Endpoint Initialization
-Our Control endpoint is the only endpoint we will be using in this example. It is used for all `Control` transfers and is the only endpoint that is required for
-device enumeration. Endpoint init is pretty straight forward. We start by selecting EP0 and resetting the EP FIFO and enabling it in the OUT direction. Once complete,
-we enable the endpoint interrupt. This will allow us to detect when a Setup packet is received.
+Endpoints are "pipes" that data is sent and received in and must be initialized with a bank size indicating how much data can be written to/from the pipe during any transfer. In our bare enumeration example we will be implementing just the our Control endpoint (EP0) so we can handle Setup packets from the Host. We start by selecting EP0, resetting its FIFO and enabling it in the OUT direction. Once complete,
+we enable the endpoint interrupt which allow us to detect when a Setup packet is received.
 ```c
 bool _endpoint_init(void) {
     // Select Endpoint 0
@@ -167,9 +165,9 @@ bool _endpoint_init(void) {
 
 ### Setup Packet Handling
 The final piece (and most important) is the handling of the Setup packet. This is where the host will query information about the device, set the bus address, and set the
-device configuration. The Setup packet is 8 bytes long and contains information such as the request type, request, value, index, and length. The first step is to read the 8 bytes
-from the FIFO. We then acknowledge the packet by clearing the RXSTPI bit. We then check the request type to determine what type of request was sent. In our example we are only handling
-the `Standard` request type.
+device configuration. The received Setup packet is 8 bytes long and contains information such as the request type, request, value, index, and length. The first step is to read the 8 bytes
+from the FIFO and then acknowledge the packet by clearing the RXSTPI bit. We then check the request type to determine what type of request was sent. In our example we are only handling
+the `Standard` request type. From here you can see we handle `GET_STATUS`, `SET_ADDRESS`, and `GET_DESCRIPTOR`, and `SET_CONFIGURATION` requests from the Host allowing it to fully configure and enumerate the device in the OS.
 ```c
 static void  _processSetupPacket(void) {
     // Read the 8 bytes from the setup packet. Depending on the type of request
