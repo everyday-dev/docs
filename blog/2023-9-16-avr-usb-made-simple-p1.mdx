@@ -354,11 +354,11 @@ static void _sendDescriptor(const uint8_t* descriptor, uint16_t length) {
 ```
 
 ### Descriptors
-USB Descriptors are a crucial part of USB enumeration. They are the mechanism by which the host learns about the device and it's capabilities. The descriptors are a data structure
-that is sent to the host when requested via a `GET_DESCRIPTOR` request. The descriptors are defined in the USB standard and are broken up into different types. The most common
-are `Device`, `Configuration`, `Interface`, `Endpoint`, and `String` descriptors. The host will request these descriptors, learning a bit more about the device each time and use that
-information to inform it's next decision which might be to request more information or begin loading a driver for the device. Our descriptors are pretty basic at the moment since we
-don't actually implement any functionality on the device. Our basic descriptors and commented explanations are below.
+USB Descriptors are a crucial part of USB enumeration and they are the mechanism by which the host learns about the device and it's capabilities. The descriptors are a data structure
+that is sent to the host when requested via a `GET_DESCRIPTOR` request. The most common descriptors are `Device`, `Configuration`, `Interface`, `Endpoint`, and `String` descriptors.
+The host will request these descriptors, learning a bit more about the device each time, and use that information to inform it's next decision which might be to request more information
+or begin loading a driver for the device. Our descriptors are pretty basic at the moment since we don't actually implement any functionality on the device. Our basic descriptors and
+commented explanations are below.
 ```c
 // USB descriptors (example, replace with your own)
 const uint8_t PROGMEM DeviceDescriptor[] = {
