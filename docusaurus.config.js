@@ -28,7 +28,10 @@ const config = {
     locales: ['en'],
   },
 
-  plugins: [require.resolve("@cmfcmf/docusaurus-search-local")],
+  plugins: [
+    require.resolve("@cmfcmf/docusaurus-search-local"),
+    'docusaurus2-dotenv'
+  ],
 
   presets: [
     [
@@ -53,7 +56,7 @@ const config = {
           customCss: require.resolve('./src/css/custom.css'),
         },
         gtag: {
-            trackingID: 'G-V4JL62Z0T5',
+            trackingID: process.env.GA_TRACKING_ID,
             anonymizeIP: false
         }
       })
