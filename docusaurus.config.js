@@ -52,10 +52,13 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-        gtag: {
-            trackingID: 'G-V4JL62Z0T5',
-            anonymizeIP: false
-        }
+        googleTagManager: {
+            containerId: 'GTM-NGB4G88S',
+        },
+        // gtag: {
+        //     trackingID: 'G-V4JL62Z0T5',
+        //     anonymizeIP: false
+        // }
       })
     ],
   ],
