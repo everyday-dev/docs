@@ -1,0 +1,77 @@
+---
+# Default requirements
+title: AVR USB Made Simple - Vendor Specific Control Transfers
+authors: stephen
+tags: [avr, usb, c, embedded, usb-made-simple]
+draft: true
+
+# Necessary for good meta-data / SEO
+keywords: [everydaydev, usb, avr, usb-made-simple]
+description: "A multi-part introduction to USB on AVR microcontrollers. Part 2 covers the implementation of Vendor specific control transfers."
+image: img/everydaydev_black_on_white_linkedin_520x272.png
+---
+
+In our [previous post](/blog/2023/9/16/avr-usb-made-simple-p1) we implemented the bare minimum required to get a USB device to enumerate with the host and laid the groundwork
+for adding actual communications to our device. In this post we will do just that by adding support Vendor Specific control transfers, allowing a Host to Write and Read data from
+the device.
+<!--truncate-->
+
+As a reminder from the previous post, we are using the [atmega32u4 breakout board](/docs/atmega32u4_breakout/introduction), a breadboard friendly device with a USB 1.1 (Fullspeed) interface.
+The code to follow along with this post can be found on our [Github](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_vendor_rw). Be sure to checkout the `control_vendor_rw`
+tag to follow along with this post.
+
+Without further ado, let's get started!
+
+## Vendor Specific Control Transfers
+Vendor specific control transfers are exactly as they sound. They are Control transfers, sent via a Setup packet, that are specific to the vendor of the device. They are a great way to implement
+device configuration, high level device control (on/off), status retrieval, and other low bandwidth items that don't require the overhead of a Bulk or Interrupt transfer. This is achieved by sending
+a setup packet with a `bRequestType` of `0x40` which indicates a vendor specific request. To clarify a bit, the `bRequestType` value of `0x40` not only indicates a Control transfer but also that it is in the
+`OUT` direction, meaning Host to Device. The `bRequestType` value of `0xC0` indicates a Control transfer as well but in the `IN` direction, meaning Device to Host. When implementing Vendor specific control
+transfers we don't actually care about the `IN` or `OUT` direction as we will be handling both in the same way. The `bRequestType` value of `0x40` is all we need to know and then we will be using
+the `bRequest` value to determine if the transfer is a `Write` or `Read`. Let's see some code!
+```c
+else if((bmRequestType & 0x60) == 0x40) { // Vendor specific request type
+    switch(bRequest) {
+        case 0x01:
+
+            // A packet was WRITTEN to us. Do something with the
+            // wValue and wIndex values here if needed.
+            // myVariable = wValue
+
+            // Reply with a ZLP
+            UEINTX &= ~(1 << TXINI);
+            // Wait for the bank to become ready again
+            while (!(UEINTX & (1<<TXINI)));
+            break;
+
+        case 0x02:
+            // Some data was requested from us. We can see how much data
+            // was requested from us using the wLength value. Load up
+            // the requested data and send it back as the `DATA` phase
+            for(uint16_t i = 0; i < wLength; i++) {
+                UEDATX = i;
+            }
+
+            // Clear the TXINI bit to initiate the transfer
+            UEINTX &= ~(1 << TXINI);
+            // Wait for the bank to become ready again
+            while (!(UEINTX & (1<<TXINI)));
+            break;
+
+        default:
+            // Unsupported vendor specific request. Reply with a STALL
+            UECONX |= (1 << STALLRQ);
+            break;
+    }
+}
+```
+
+As you can see we add a new `else if` block to our `_processSetupPacket` function to check if the Vendor specific transfer type is set. From there we say that a `bRequest` value of `0x01` indicates the
+host is writing data to us (OUT), and a `bRequest` value of `0x02` indicates the host is requesting data from us (IN). Again to clarify, you could also implement two separate `else if` blocks for `0x40`
+and `0xC0` to further separate out the `IN` and `OUT` directions but for our purposes we are just going to handle them the same way. The handling itself is pretty straight forward. For a `Write` we store
+the provided `wValue` and then reply with a ZLP (Zero length packet) to acknowledge the write. A read is just as simple, we check the requested length set via the `wLength` parameter and then load up the
+data to send back to the host. Once the data is loaded we reply with a ZLP to initiate the transfer. If the host requests more data than we have available we will just send back whatever we have available.
+Care should also be taken that all responses back to the Host fit within the defined packet size for your endpoint. Meaning you might need to break up your response into multiple packets if the requested
+`wLength` is greater than the packet size.
+
+## Adding hooks into our main application
