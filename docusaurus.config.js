@@ -119,10 +119,10 @@ const config = {
           {
             title: 'Say hello',
             items: [
-                // {
-                //     label: '🦣 Mastodon',
-                //     href: 'https://fosstodon.org/@stephendpmurphy',
-                // },
+                {
+                    label: '💬 Slack',
+                    href: 'https://join.slack.com/t/everydaydev/shared_invite/zt-24xke98r8-EO3aRSnAUyBjpOl4NbJZsg',
+                },
                 {
                     label: '✉️ hello@everydaydev.io',
                     href: 'mailto:hello@everydaydev.io?body=Say%20hello%2C%20ask%20questions%2C%20or%20send%20us%20whatever%20else%20you%20want%20to%20chat%20about!&subject=Hello%20%F0%9F%91%8B',
