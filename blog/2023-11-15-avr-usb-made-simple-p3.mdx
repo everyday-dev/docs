@@ -1,0 +1,293 @@
+---
+# Default requirements
+title: AVR USB Made Simple - Interrupt Transfers
+authors: stephen
+tags: [avr, usb, c, embedded, usb-made-simple]
+draft: true
+
+# Necessary for good meta-data / SEO
+keywords: [everydaydev, usb, avr, usb-made-simple]
+description: "A multi-part introduction to USB on AVR microcontrollers. In Part 3 we cover the implementation of Interrupt transfers."
+image: img/everydaydev_black_on_white_linkedin_520x272.png
+---
+
+In our [previous post](/blog/2023/9/16/avr-usb-made-simple-p1) we implemented the bare minimum required to get a USB device to enumerate with the host and laid the groundwork
+for adding actual communications to our device. In this post we will do just that by adding support Vendor Specific control transfers, allowing a Host to Write and Read data from
+the device.
+<!--truncate-->
+
+As a reminder from the previous post, we are using the [atmega32u4 breakout board](/docs/atmega32u4_breakout/introduction), a breadboard friendly device with a USB 1.1 (Full-speed) interface.
+The code to follow along can be found on our [Github](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_vendor_rw), just be sure to checkout the `control_vendor_rw`
+tag.
+
+Without further ado, let's get started!
+
+## Vendor Specific Control Transfers
+Vendor specific control transfers are exactly as they sound. They are Control transfers, sent via a Setup packet, that are specific to the vendor of the device. They are a great way to implement
+device configuration, high level device control (on/off), status retrieval, and other low bandwidth items that don't require the overhead of a Bulk or Interrupt transfer.
+
+To achieve this the host sends a setup packet with a `bRequestType` of `0x40` which indicates a vendor specific request. To clarify a bit, the `bRequestType` value of `0x40` not only indicates a
+Control transfer but also that it is in the `OUT` direction, meaning Host to Device. The `bRequestType` value of `0xC0` indicates a Control transfer as well but in the `IN` direction, meaning Device
+to Host. When implementing Vendor specific control transfers in our device firmware we don't actually care about the `IN` or `OUT` direction as we will be handling both in the same way. The `bRequestType` value of `0x40`
+is all we need to know and then we will be using the `bRequest` value to determine if the transfer is a `Write` or `Read`. Let's see some code!
+```c
+else if((bmRequestType & 0x60) == 0x40) { // Vendor specific request type
+    switch(bRequest) {
+        case 0x01:
+
+            // A packet was WRITTEN to us. Do something with the
+            // wValue and wIndex values here if needed.
+            // myVariable = wValue
+
+            // Reply with a ZLP
+            UEINTX &= ~(1 << TXINI);
+            // Wait for the bank to become ready again
+            while (!(UEINTX & (1<<TXINI)));
+            break;
+
+        case 0x02:
+            // Some data was requested from us. We can see how much data
+            // was requested from us using the wLength value. Load up
+            // the requested data and send it back as the `DATA` phase
+            for(uint16_t i = 0; i < wLength; i++) {
+                UEDATX = i;
+            }
+
+            // Clear the TXINI bit to initiate the transfer
+            UEINTX &= ~(1 << TXINI);
+            // Wait for the bank to become ready again
+            while (!(UEINTX & (1<<TXINI)));
+            break;
+
+        default:
+            // Unsupported vendor specific request. Reply with a STALL
+            UECONX |= (1 << STALLRQ);
+            break;
+    }
+}
+```
+
+As you can see we add a new `else if` block to our `_processSetupPacket` function to check if the Vendor specific transfer type is set. From there we say that a `bRequest` value of `0x01` indicates the
+host is writing data to us (`OUT`), and a `bRequest` value of `0x02` indicates the host is requesting data from us (`IN`). Again to clarify, you could also implement two separate `else if` blocks for `0x40`
+and `0xC0` to further separate out the `IN` and `OUT` directions but for our purposes we are just going to handle them the same way.
+
+The handling itself is pretty straight forward: for a `Write` we store
+the provided `wValue` and then reply with a ZLP (Zero length packet) to acknowledge the write. A read is just as simple, we check the requested length set via the `wLength` parameter and then load up the
+data to send back to the host. Once the data is loaded we initiate the transfer. If the host requests more data than we have available we will just send back whatever we have.
+Care should also be taken that all responses back to the Host fit within the defined packet size for your endpoint. Meaning you might need to break up your response into multiple packets if the requested
+`wLength` is greater than the packet size.
+
+## Integrating into our main application
+Now that we can read and write data to our device, how do we actually use it in our application? The first and simplest way is to just add your get/set functions directly into the new `if` statement for
+handling control transfers. This is fine for simple applications but we can do better. Let's add some hooks into our main application that will allow us to register functions to be called when a transfer is
+received.
+
+### Creating the hooks
+To start we will add two new function types to our `usb.h` file. The first function type `usb_controlWrite_rx_cb_t` is a function that takes a single `uint16_t` parameter and returns nothing - this will be used for our `Write` callback, meaning it's called when the host
+writes data to us, and the value written is passed as the `rxData` variable. The second function type `usb_controlRead_tx_cb_t` is a function that takes a `uint8_t` pointer and a `uint16_t` parameter and returns
+a `uint16_t` - this will be used for our `Read` callback, meaning it's called when the host requests data from us, and the `txData` pointer is where we will write our data to send back to the host, the `requestedTxLen`
+is the amount of data requested by the host. The return value of the function is the amount of data actually written to the `txData` buffer.
+```c
+typedef void (*usb_controlWrite_rx_cb_t)(uint16_t rxData);
+typedef uint16_t (*usb_controlRead_tx_cb_t)(uint8_t *txData, const uint16_t requestedTxLen);
+
+```
+
+Now we have a set of callbacks that we can register with our USB library. First create two new variables in our `usb.c` file to store the callbacks:
+```c
+usb_controlWrite_rx_cb_t _setupWrite_cb = NULL;
+usb_controlRead_tx_cb_t _setupRead_cb = NULL;
+```
+
+Let's update our `usb_init` function to take these callbacks as parameters and store them in our new variables:
+```c
+void usb_init(usb_controlWrite_rx_cb_t onControlWriteCb, usb_controlRead_tx_cb_t onControlReadCb) {
+    // Power-On USB pads regulator
+    UHWCON |= (1 << UVREGE);
+
+    // VBUS int enable, VBUS pad enable, USB Controller enable
+    USBCON |= (1 << USBE) | (1 << OTGPADE) | (1 << FRZCLK);
+
+    // Toggle the FRZCLK to get WAKEUP IRQ
+    USBCON &= ~(1 << FRZCLK);
+    USBCON |= (1 << FRZCLK);
+
+    // Set the PLL input divisor to be 1:2 since we have
+    // at 16MHz input (we want 8MHz output on the PLL)
+    PLLCSR |= (1 << PINDIV);
+
+    // Default USB postscaler is fine as it generates
+    // the 48Mhz clock from the 8Mhz PLL input by default
+
+    // Start the PLL
+    PLLCSR |= (1 << PLLE);
+
+    // Wait for the PLL to lock
+    while (!(PLLCSR &(1<<PLOCK)));
+
+    // Leave power saving mode
+    USBCON &= ~(1 << FRZCLK);
+
+    // Store our CB if we received one
+    if(onControlWriteCb != NULL) {
+        _setupWrite_cb = onControlWriteCb;
+    }
+
+    if(onControlReadCb != NULL) {
+        _setupRead_cb = onControlReadCb;
+    }
+
+    // Attach the device by clearing the detach bit
+    // This is acceptable in the case of a bus-powered device
+    // otherwise you would initiate this step based on a
+    // VBUS detection.
+    UDCON &= ~(1 << DETACH);
+
+    // Enable the USB Reset IRQ. This IRQ fires when the
+    // host sends a USB reset to the device to kickoff
+    // USB enumeration. Init of the USB will continue in the
+    // ISRs when the reset signal is received.
+    UDIEN |= (1 << EORSTE);
+}
+```
+
+Next, we need to add our callback definitions in `main.c` and pass them as parameters to our `usb_init` call.
+```c
+
+void onUsbControlWrite(uint16_t rxData) {
+    // Do something with the rxData that was just written to us from the Host
+}
+
+uint16_t onUsbControlRead(uint8_t *txData, const uint16_t requestedTxLen) {
+    uint16_t txLen = 0;
+
+    // Load up data into the txData buffer to send back to the host.
+    // Make sure to also update txLen with the amount of data that we load
+
+    return txLen;
+}
+
+int main(void) {
+    // Set our LED port as an output
+    LED_STAT_DDR |= (1 << LED_STAT_PIN);
+
+    // Init USB and provide it our callback function
+    // to be called when data is received via a
+    // Control Write transfer
+    usb_init(onUsbControlWrite, onUsbControlRead);
+
+    // Enable global interrupts
+    sei();
+
+    while(1) {
+        // Do nothing
+    }
+}
+```
+
+Last, we need to call the callbacks from our `usb.c` file when a control transfer is received. Let's update our `else if` block for handling control transfers to look like this:
+```c
+else if((bmRequestType & 0x60) == 0x40) { // Vendor specific request type
+    switch(bRequest) {
+        case 0x01:
+            // If we have a callback stored, call it with the value
+            if(_setupWrite_cb != NULL) {
+                _setupWrite_cb(wValue);
+            }
+
+            // Reply with a ZLP
+            UEINTX &= ~(1 << TXINI);
+            // Wait for the bank to become ready again
+            while (!(UEINTX & (1<<TXINI)));
+            break;
+
+        case 0x02:
+            if(_setupRead_cb != NULL) {
+                // Call our callback to get the data to send back
+                uint16_t txLen = _setupRead_cb(_setup_read_buff,
+                    (wLength > CONTROL_EP_BANK_SIZE ?
+                        CONTROL_EP_BANK_SIZE :
+                        wLength));
+                // Send the data back to the host
+                for(uint16_t i = 0; i < txLen; i++) {
+                    UEDATX = _setup_read_buff[i];
+                }
+                // Clear the TXINI bit to initiate the transfer
+                UEINTX &= ~(1 << TXINI);
+                // Wait for the bank to become ready again
+                while (!(UEINTX & (1<<TXINI)));
+            }
+            else {
+                // No callback was provided so
+                // reply with a stall
+                UECONX |= (1 << STALLRQ);
+            }
+            break;
+
+        default:
+            // Unsupported vendor specific request. Reply with a STALL
+            UECONX |= (1 << STALLRQ);
+            break;
+    }
+}
+```
+
+Now when a control transfer is received we will call the appropriate callback if one was provided. Next let's fill out the callbacks in our application to actually do something with the
+data that is received or requested.
+
+### Using the callbacks
+For the `Write` callback, we are going to store the received data and then handle it in the main loop. We don't want to do much more than that since these callbacks are actually being
+called from the ISR in `usb.c`. We should be as quick and efficient as possible, offloading any heavy lifting to the main loop. In our example we are going to be using the received value
+as an LED state, which we will update in the main loop. In the `Read` callback we are going to load up a single value of `0x03` into the buffer and return with a value of `0x01` since we
+loaded a single byte. Let's see the code:
+```c
+uint16_t my_led_state = 0;
+
+void onUsbControlWrite(uint16_t rxData) {
+    my_led_state = rxData;
+}
+
+uint16_t onUsbControlRead(uint8_t *txData, const uint16_t requestedTxLen) {
+    uint16_t txLen = 1;
+
+    txData[0] = 0x03;
+
+    return txLen;
+}
+
+int main(void) {
+    // Set our LED port as an output
+    LED_STAT_DDR |= (1 << LED_STAT_PIN);
+
+    // Init USB and provide it our callback function
+    // to be called when data is received via a
+    // Control Write transfer
+    usb_init(onUsbControlWrite, onUsbControlRead);
+
+    // Enable global interrupts
+    sei();
+
+    while(1) {
+        if(my_led_state) {
+            LED_STAT_PORT |= (1 << LED_STAT_PIN);
+        }
+        else {
+            LED_STAT_PORT &= ~(1 << LED_STAT_PIN);
+        }
+    }
+}
+```
+
+That's it, we're ready to connect with a Host and send vendor specific data!
+
+## Testing it out
+To test out our new Vendor specific control transfers we have three languages to pick from: C, Python, and NodeJS. Each of these languages have an example for both the `Write` and `Read` transfers.
+- [C example](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_vendor_rw/host/c)
+- [NodeJS example](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_vendor_rw/host/nodejs)
+- [Python example](https://github.com/everyday-dev/avr-usb-made-simple/tree/control_vendor_rw/host/python)
+
+At each link you'll find instructions for building and using the applications.
+
+## Conclusion
+That's it, we now have a working USB device that can be controlled via Vendor specific control transfers! In coming posts we will cover the Interrupt, Bulk and Isochronous transfer types, where we will
+talk about their key differences and when to use each one. We will also cover how to implement them in our device firmware. Stay tuned!
