@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[3912],{2433:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/certification","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Guides, walkthroughs and general updates for the everyday dev org can all be found here!","blogTitle":"blog posts and guides"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[1234],{9712:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/dev-101","page":1,"postsPerPage":10,"totalPages":1,"totalCount":2,"blogDescription":"Guides, walkthroughs and general updates for the everyday dev org can all be found here!","blogTitle":"blog posts and guides"}')}}]);
